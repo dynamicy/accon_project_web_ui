@@ -1,0 +1,55 @@
+﻿@charset "UTF-8";
+body 
+{
+	width: 750px;	
+	font-family: Tahoma, Genevam, sans-serif;
+}
+
+.rssFeed 
+{
+	font-family: Arial, Helvetica, sans-serif;
+	width: 350px;
+}
+
+.rssFeed a 
+{
+	color: #444;
+	text-decoration: none;
+}
+
+.rssFeed a:hover 
+{
+	color: #000;
+	text-decoration: underline;
+}
+
+.rssHeader 
+{
+	padding: 0.1px; 
+}
+
+.rssBody 
+{ 
+	padding: 5px; 
+}
+
+.rssRow h4, .rssRow p, .rssRow div 
+{
+	margin: 0;
+	padding: 10px;
+}
+
+#ticker1
+{ 
+	z-index:5000;
+	top:250;
+}
+
+#ticker1 .odd 
+{
+	background: rgba(200, 200, 200, 0.5);
+}
+#ticker1 .even 
+{ 
+	background: rgba(200, 200, 200, 0.5);
+}
