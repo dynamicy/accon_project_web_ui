@@ -78,23 +78,6 @@
                         }
                     });
                 };
-
-                me.getAppliance = function (handler) 
-                {
-                    $.get('appliance.xml', function (data) 
-                    {
-                        if (handler && data) 
-                        {
-                            var jRoot = {};
-                            var root = $(data).find('root');
-                            root.children().each(function()
-                            {
-                                jRoot[$(this).prop('tagName').toLowerCase()] = $(this).text();
-                            });
-                            handler(jRoot);
-                        }
-                    });
-                };
             };
 
             var extractor = new DataExtractor();           
