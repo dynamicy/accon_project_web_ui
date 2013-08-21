@@ -308,7 +308,7 @@
 
 <body>
 <div id="wrapper">
-    <img width="700" height="446" src="images/bg.png" alt="House"> 
+    <img width="700" height="446" src="images/bg1.png" alt="House"> 
     <div class="pin pin-down" data-xpos="31" data-ypos="205">
         <h2>Widget TV</h2><br>
         <label><b>Status: </b></label><span id="tvStatus"></span><br>
@@ -351,25 +351,23 @@
         <span id="msService1"></span><br>
         <span id="msService2"></span><br>            
     </div>
-    <div class="pin pin-down" data-xpos="500" data-ypos="250">
-        <h2>Light</h2><br>
-        <label><b>Status:</b> </label><span id="lightstatus"></span><br>
-        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+    <div class="pin pin-down" data-xpos="510" data-ypos="325">
+        <label><b>TempA:</b> </label><span id="lightstatus"></span><br>
+        <label><b>Illumination:</b> </label><span id="lightrelay"></span><br>
+        <label><b>Current:</b> </label><span id="lightrelay"></span><br>        
         <button id="appButton1" style="height: 50px; width: 80px" onclick=smart_home_req(0,"div_test")>Turn On</button>
         <button id="appButton2" style="height: 50px; width: 80px" onclick=smart_home_req(1,"div_test")>Turn Off</button>
         <button id="appButton3" style="height: 50px; width: 80px" onclick=smart_home_req(2,"div_test")>Turn On</button>
         <button id="appButton4" style="height: 50px; width: 80px" onclick=smart_home_req(3,"div_test")>Turn Off</button>
-        <br><img src="images/pc2.jpeg" width="210"><br>
     </div>    
-    <div class="pin pin-down" data-xpos="310" data-ypos="125">
-        <h2>Electrical Fan</h2><br>
-        <label><b>Status:</b> </label><span id="fanstatus"></span><br>
-        <label><b>Relay:</b> </label><span id="fanrelay"></span><br>
+    <div class="pin pin-down" data-xpos="60" data-ypos="15">
+        <label><b>TempB:</b> </label><span id="fanstatus"></span><br>
+        <label><b>Illumination:</b> </label><span id="fanrelay"></span><br>
+        <label><b>Current:</b> </label><span id="fanrelay"></span><br>        
         <button id="appButton5" style="height: 50px; width: 80px" onclick=smart_home_req(0,"div_test")>Turn On</button>
         <button id="appButton6" style="height: 50px; width: 80px" onclick=smart_home_req(1,"div_test")>Turn Off</button>
         <button id="appButton7" style="height: 50px; width: 80px" onclick=smart_home_req(2,"div_test")>Turn On</button>
         <button id="appButton8" style="height: 50px; width: 80px" onclick=smart_home_req(3,"div_test")>Turn Off</button>          
-        <br><img src="images/pc1.jpeg" width="210">	 <br>
     </div>            
 </div>
 <div align="center" id="div_test"></div>       
