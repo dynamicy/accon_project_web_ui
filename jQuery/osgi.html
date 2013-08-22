@@ -128,14 +128,15 @@
             };
 
 			var ContextDataChecker = {
-				oldData: {},
-				curData: {},
+				oldData: undefined,
+				curData: undefined,
 				isChanged: false,
 	            onChangeHandler: {},
 	            setOnChangeHandler: function(handler) {
 		            if(handler) this.onChangeHandler = handler;
 	            },
 	            check: function(extractor) {
+	            	var me = this;
 	            	extractor.getBundle(function (devices) {
 	                    var zstackDevice = devices['zstack'];
 	                    var aspireDevice = devices['aspire'];
@@ -145,30 +146,30 @@
 						var m140a = zstackDevice['140_A'];
 						var m140b = zstackDevice['140_B'];
 						
-						this.curData = {
+						me.curData = {
 							m140a: zstackDevice['140_A'],
 							m140b: zstackDevice['140_B']
 						};
 						
 						var arg = {};
-						if(!this.oldData) {
-							this.isChanged = true;
+						if(!me.oldData) {
+							me.isChanged = true;
 						}
 						else {       	
 			            	// compare the type of bg
-							if ((this.oldData.m140a.data != this.curData.m140a.data) || (this.oldData.m140b.data != this.curData.m140b.data)) {
-								this.isChanged = true;
-								arg.BGURL = 'images/bg' + this.curData.m140a.data + "" + this.curData.m140b.data + ".png";
+							if ((me.oldData.m140a.data != me.curData.m140a.data) || (me.oldData.m140b.data != me.curData.m140b.data)) {
+								me.isChanged = true;
+								arg.BGURL = 'images/bg' + me.curData.m140a.data + "" + me.curData.m140b.data + ".png";
 							}
 							else {
-								this.isChanged = false;
+								me.isChanged = false;
 							}
 						}
 						
-						this.oldData = this.curData;
-						arg.Data = this.curData;
-		            	if(this.isChanged && this.onChangeHandler) {	
-							onChangeHandler(arg); 
+						me.oldData = me.curData;
+						arg.Data = me.curData;
+		            	if(me.isChanged && me.onChangeHandler) {	
+							me.onChangeHandler(arg); 
 		            	}
 					});
 	            }
