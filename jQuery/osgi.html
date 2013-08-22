@@ -57,6 +57,42 @@
                 var me = this;
                 me.getBundle = function (handler) 
                 {
+                	$.ajax({
+	                	url: '../xml_sample/alldata.xml',
+	                	success: function (data) {
+	                        if (handler && data) 
+	                        {
+	                            var devices = {};
+	                            var root = $(data).find('Root');
+								                                                    
+	                            root.children().each(function()
+	                            {
+	                                var device = $(this);
+	                                var did = device.attr('type').toLowerCase();
+	                                var modules = {};
+	                                                               
+	                                device.children().each(function () 
+	                                {
+	                                	var module = {};
+	                                	$(this).children().each(function(){
+	                                		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
+		                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
+	                                	});
+	                                	
+	                                	modules[module.type + '_' + module.room] = module;
+	                                    //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
+	                                });
+	                           
+	                                devices[did] = modules;
+	                                
+	                            });
+	                            handler(devices);
+	                        }
+	                    },
+	                    cache: false
+                	});
+                	
+                	/*
                     $.get('../xml_sample/alldata.xml', function (data) 
                     {
                         if (handler && data) 
@@ -87,61 +123,58 @@
                             });
                             handler(devices);
                         }
-                    });
+                    });*/
                 };
             };
 
-            var extractor = new DataExtractor();           
-            setInterval(modifyUIData, 3000, extractor);
-
-            function modifyUIData(extractor) 
-            {
-          		// Initial
-            	if(!extractor)
-            	{
-                    var appBtn1 = $('#appButton1');
-	                var appBtn2 = $('#appButton2');
-                    var appBtn3 = $('#appButton3');
-	                var appBtn4 = $('#appButton4');
-                    var appBtn5 = $('#appButton5');
-	                var appBtn6 = $('#appButton6');
-                    var appBtn7 = $('#appButton7');
-	                var appBtn8 = $('#appButton8');
-	                	        
-					appBtn1.hide();
-					appBtn2.hide();
-					appBtn3.hide();
-					appBtn4.hide();
-					appBtn5.hide();
-					appBtn6.hide();
-					appBtn7.hide();
-					appBtn8.hide();																					                	                                       
-	            	return;           	
-            	}
-
-            	// Normal case
-                extractor.getBundle(function (devices) 
-                {
-                    var zstackDevice = devices['zstack'];
-                    var aspireDevice = devices['aspire'];
-                    var smartphoneDevice = devices['smartphone'];
-                    var smartsocketDevice = devices['smartsocket'];     
-                    
-					var m140a = zstackDevice['140_A'];
-					var m140b = zstackDevice['140_B'];
-										
-                    $('#140aAddress').text(m140a.address);       
-                    $('#140aType').text(m140a.type);  
-                    $('#140aData').text(m140a.data);                      
-                    
-                    $('#140bAddress').text(m140b.address);       
-                    $('#140bType').text(m140b.type);  
-                    $('#140bData').text(m140b.data);                      
-
-                    map.updata();
-                });
-            }
-
+			var ContextDataChecker = {
+				oldData: {},
+				curData: {},
+				isChanged: false,
+	            onChangeHandler: {},
+	            setOnChangeHandler: function(handler) {
+		            if(handler) this.onChangeHandler = handler;
+	            },
+	            check: function(extractor) {
+	            	extractor.getBundle(function (devices) {
+	                    var zstackDevice = devices['zstack'];
+	                    var aspireDevice = devices['aspire'];
+	                    var smartphoneDevice = devices['smartphone'];
+	                    var smartsocketDevice = devices['smartsocket'];     
+	                    
+						var m140a = zstackDevice['140_A'];
+						var m140b = zstackDevice['140_B'];
+						
+						this.curData = {
+							m140a: zstackDevice['140_A'],
+							m140b: zstackDevice['140_B']
+						};
+						
+						var arg = {};
+						if(!this.oldData) {
+							this.isChanged = true;
+						}
+						else {       	
+			            	// compare the type of bg
+							if ((this.oldData.m140a.data != this.curData.m140a.data) || (this.oldData.m140b.data != this.curData.m140b.data)) {
+								this.isChanged = true;
+								arg.BGURL = 'images/bg' + this.curData.m140a.data + "" + this.curData.m140b.data + ".png";
+							}
+							else {
+								this.isChanged = false;
+							}
+						}
+						
+						this.oldData = this.curData;
+						arg.Data = this.curData;
+		            	if(this.isChanged && this.onChangeHandler) {	
+							onChangeHandler(arg); 
+		            	}
+					});
+	            }
+            };
+            
+            
             var IMap = function () {
                 var me = this;
 
@@ -180,27 +213,100 @@
             };
 			modifyUIData();
             var map = new IMap();
+            
+            ContextDataChecker.setOnChangeHandler(function(arg) {
+    			// To do   
+    			var m140a = arg.Data.m140a;
+    			var m140b = arg.Data.m140b;
+    			
+    			$('#140aAddress').text(m140a.address);       
+                $('#140aType').text(m140a.type);  
+                $('#140aData').text(m140a.data);                      
+                
+                $('#140bAddress').text(m140b.address);       
+                $('#140bType').text(m140b.type);  
+                $('#140bData').text(m140b.data);                      
+
+				$('#bgsrc').attr('src', arg.BGURL);
+				
+                map.updata(); 
+            });    
+            
+            var extractor = new DataExtractor();           
+            setInterval(modifyUIData, 3000, extractor);
+
+            function modifyUIData(extractor) 
+            {
+            	if(extractor) ContextDataChecker.check(extractor);
+          		// Initial
+            	if(!extractor)
+            	{
+                    var appBtn1 = $('#appButton1');
+	                var appBtn2 = $('#appButton2');
+                    var appBtn3 = $('#appButton3');
+	                var appBtn4 = $('#appButton4');
+                    var appBtn5 = $('#appButton5');
+	                var appBtn6 = $('#appButton6');
+                    var appBtn7 = $('#appButton7');
+	                var appBtn8 = $('#appButton8');
+	                	        
+					appBtn1.hide();
+					appBtn2.hide();
+					appBtn3.hide();
+					appBtn4.hide();
+					appBtn5.hide();
+					appBtn6.hide();
+					appBtn7.hide();
+					appBtn8.hide();																					                	                                       
+	            	return;           	
+            	}
+
+            	/* Normal case
+                extractor.getBundle(function (devices) 
+                {
+                    var zstackDevice = devices['zstack'];
+                    var aspireDevice = devices['aspire'];
+                    var smartphoneDevice = devices['smartphone'];
+                    var smartsocketDevice = devices['smartsocket'];     
+                    
+					var m140a = zstackDevice['140_A'];
+					var m140b = zstackDevice['140_B'];
+										
+                    $('#140aAddress').text(m140a.address);       
+                    $('#140aType').text(m140a.type);  
+                    $('#140aData').text(m140a.data);                      
+                    
+                    $('#140bAddress').text(m140b.address);       
+                    $('#140bType').text(m140b.type);  
+                    $('#140bData').text(m140b.data);                      
+
+                    map.updata();
+                });*/
+            }
+
         });
     </script>
     <script type="text/javascript">
-    	$(document).ready(function (){
+/*    	$(document).ready(function (){
 	    	var count = 0;
 	    	$('#btnTest').click(function (){
-	    		count++;
-				if(count>=0)
-				{
-					$('#bgsrc').attr('src', 'images/bg'+count+'.png');
-				}	
-				else if(count>3)
+				if(count>3)
 				{
 					count = 0;
+					$('#bgsrc').attr('src', 'images/bg'+count+'.png');					
 				}
+				else if(count>=0)
+				{
+					$('#bgsrc').attr('src', 'images/bg'+count+'.png');
+					count++;
+				}	
 			}); 	
-    	});
+    	});*/
     </script>
 </head>
 
 <body>
+<button id="btnTest">Click me</button>
 <div id="wrapper">
     <img width="700" height="446" src="images/bg1.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="31" data-ypos="205">
@@ -214,7 +320,6 @@
         <label><b>Data:</b> </label><span id="140bData"></span><br>
     </div>                  
 </div>
-<button id="btnTest">Click me</button>
 <div align="center" id="div_test"></div>       
 </body>
 </html>

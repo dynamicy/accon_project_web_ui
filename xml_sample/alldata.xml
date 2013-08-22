@@ -3,13 +3,13 @@
 		<Module>
 			<address>0x7810</address>
 			<type>140</type>
-			<data>.......</data>
+			<data>1</data>
 			<room>A</room>
 		</Module>
 		<Module>
 			<address>0x7750</address>
 			<type>140</type>
-			<data>.......</data>
+			<data>3</data>
 			<room>B</room>
 		</Module>
 		<Module>
