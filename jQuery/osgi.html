@@ -127,25 +127,17 @@
                     var smartphoneDevice = devices['smartphone'];
                     var smartsocketDevice = devices['smartsocket'];     
                     
-                    $('#tvStatus').text(modules[module.type + '_' + module.room]);       
-                    $('#tvType').text(modules[module.type + '_' + module.room]);  
+					var m140a = zstackDevice['140_A'];
+					var m140b = zstackDevice['140_B'];
+										
+                    $('#140aAddress').text(m140a.address);       
+                    $('#140aType').text(m140a.type);  
+                    $('#140aData').text(m140a.data);                      
                     
-                    $('#msStatus').text(modules[module.type + '_' + module.room]);       
-                    $('#msType').text(modules[module.type + '_' + module.room]);                                                                                                                                                                            
-    /*                
-                    // Tv
-                    $('#tvName').text(zstackDevice['']);
-                    $('#tvType').text(zstackDevice.type);
-                    $('#tvStatus').text(zstackDevice.status);
-                    $('#tvService1').text(zstackDevice.service1);
-                    
-                    // Media Server
-                    $('#msName').text(msBundle.name);
-                    $('#msType').text(msBundle.type);
-                    $('#msStatus').text(msBundle.status);
-                    $('#msService1').text(msBundle.service1); 
-                    $('#msService2').text(msBundle.service2);                                                                                                                                                                                                                                                 
-*/
+                    $('#140bAddress').text(m140b.address);       
+                    $('#140bType').text(m140b.type);  
+                    $('#140bData').text(m140b.data);                      
+
                     map.updata();
                 });
             }
@@ -186,32 +178,43 @@
                     me.updata();
                 }
             };
-
 			modifyUIData();
             var map = new IMap();
         });
+    </script>
+    <script type="text/javascript">
+    	$(document).ready(function (){
+	    	var count = 0;
+	    	$('#btnTest').click(function (){
+	    		count++;
+				if(count>=0)
+				{
+					$('#bgsrc').attr('src', 'images/bg'+count+'.png');
+				}	
+				else if(count>3)
+				{
+					count = 0;
+				}
+			}); 	
+    	});
     </script>
 </head>
 
 <body>
 <div id="wrapper">
-    <img width="700" height="446" src="images/bg1.png" alt="House"> 
+    <img width="700" height="446" src="images/bg1.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="31" data-ypos="205">
-        <h2>Widget TV</h2><br>
-        <label><b>Status: </b></label><span id="tvStatus"></span><br>
-        <label><b>Type: </b></label><span id="tvType"></span><br>
-        <label><b>Service:</b></label><br>
-        <span id="tvService1"></span><br>
+        <label><b>Address: </b></label><span id="140aAddress"></span><br>
+        <label><b>Type: </b></label><span id="140aType"></span><br>
+        <label><b>Data:</b></label><span id="140aData"></span><br>
     </div>
     <div class="pin pin-down" data-xpos="50" data-ypos="325">
-        <h2>Media Server</h2><br>
-        <label><b>Status:</b> </label><span id="msStatus"></span><br>
-        <label><b>Type:</b> </label><span id="msType"></span><br>
-        <label><b>Service:</b> </label><br>            
-        <span id="msService1"></span><br>
-        <span id="msService2"></span><br>            
+        <label><b>Address:</b> </label><span id="140bAddress"></span><br>
+        <label><b>Type:</b> </label><span id="140bType"></span><br>
+        <label><b>Data:</b> </label><span id="140bData"></span><br>
     </div>                  
 </div>
+<button id="btnTest">Click me</button>
 <div align="center" id="div_test"></div>       
 </body>
 </html>
