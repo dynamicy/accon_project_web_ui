@@ -57,27 +57,35 @@
                 var me = this;
                 me.getBundle = function (handler) 
                 {
-//                    $.get('../xml_sample/alldata.xml', function (data) 
-                    $.get('../xml_sample/bundle.xml', function (data) 
+                    $.get('../xml_sample/alldata.xml', function (data) 
                     {
                         if (handler && data) 
                         {
-                            var jRoot = [];
-                            var root = $(data).find('root');
+                            var devices = {};
+                            var root = $(data).find('Root');
 							                                                    
                             root.children().each(function()
                             {
-//	                            var pic = $entry.find('zstack').attr('protocol');    //
-                                var bundle = $(this);
-                                var jBun = {};
-                                bundle.children().each(function () 
+                                var device = $(this);
+                                var did = device.attr('type').toLowerCase();
+                                var modules = {};
+                                                               
+                                device.children().each(function () 
                                 {
-                                    jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
+                                	var module = {};
+                                	$(this).children().each(function(){
+                                		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
+	                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
+                                	});
+                                	
+                                	modules[module.type + '_' + module.room] = module;
+                                    //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
                                 });
-                                //var key = jBun.name == '' ? 'tv' : 'socket'; 
-                                jRoot.push(jBun);
+                           
+                                devices[did] = modules;
+                                
                             });
-                            handler(jRoot);
+                            handler(devices);
                         }
                     });
                 };
@@ -112,49 +120,32 @@
             	}
 
             	// Normal case
-                extractor.getBundle(function (bundles) 
+                extractor.getBundle(function (devices) 
                 {
-                    var tvBundle = bundles[0];
-                    var msBundle = bundles[1];                    
-                    var phoneBundle = bundles[2];                    
-                    var socketBundle = bundles[3];                                                                               
+                    var zstackDevice = devices['zstack'];
+                    var aspireDevice = devices['aspire'];
+                    var smartphoneDevice = devices['smartphone'];
+                    var smartsocketDevice = devices['smartsocket'];     
                     
+                    $('#tvStatus').text(modules[module.type + '_' + module.room]);       
+                    $('#tvType').text(modules[module.type + '_' + module.room]);  
+                    
+                    $('#msStatus').text(modules[module.type + '_' + module.room]);       
+                    $('#msType').text(modules[module.type + '_' + module.room]);                                                                                                                                                                            
+    /*                
                     // Tv
-                    $('#tvName').text(tvBundle.name);
-                    $('#tvType').text(tvBundle.type);
-                    $('#tvStatus').text(tvBundle.status);
-                    $('#tvService1').text(tvBundle.service1);
+                    $('#tvName').text(zstackDevice['']);
+                    $('#tvType').text(zstackDevice.type);
+                    $('#tvStatus').text(zstackDevice.status);
+                    $('#tvService1').text(zstackDevice.service1);
                     
                     // Media Server
                     $('#msName').text(msBundle.name);
                     $('#msType').text(msBundle.type);
                     $('#msStatus').text(msBundle.status);
                     $('#msService1').text(msBundle.service1); 
-                    $('#msService2').text(msBundle.service2);                     
-
-                    // Mobile
-                    $('#phoneName').text(phoneBundle.name);
-                    $('#phoneType').text(phoneBundle.type);
-                    $('#phoneStatus').text(phoneBundle.status);
-                    $('#phoneService1').text(phoneBundle.service1); 
-                    
-                    // Socket
-                    $('#socketName').text(socketBundle.name);
-                    $('#socketType').text(socketBundle.type);
-                    $('#socketStatus').text(socketBundle.status); 
-                    $('#socketService1').text(socketBundle.service1);
-                    $('#socketService2').text(socketBundle.service2); 
-                    $('#socketService3').text(socketBundle.service3); 
-                    $('#socketService4').text(socketBundle.service4); 
-                    $('#socketService5').text(socketBundle.service5); 
-                    $('#socketService6').text(socketBundle.service6); 
-                    $('#socketService7').text(socketBundle.service7); 
-                    $('#socketService8').text(socketBundle.service8); 
-                    $('#socketService9').text(socketBundle.service9); 
-                    $('#socketService10').text(socketBundle.service10); 
-                    $('#socketService11').text(socketBundle.service11); 
-                    $('#socketService12').text(socketBundle.service12);                                                                                                                                                                                                                             
-
+                    $('#msService2').text(msBundle.service2);                                                                                                                                                                                                                                                 
+*/
                     map.updata();
                 });
             }
@@ -212,33 +203,6 @@
         <label><b>Service:</b></label><br>
         <span id="tvService1"></span><br>
     </div>
-    <div class="pin pin-down" data-xpos="150" data-ypos="255">
-        <h2>Smart Socket</h2><br> 
-        <label><b>Status: </label><span id="socketStatus"></span><br>            
-        <label><b>Type: </label><span id="socketType"></span><br>    
-        <label><b>Service:</b> </label><br>                                                   
-        <span id="socketService1"></span><br> 
-        <span id="socketService2"></span><br>    
-        <span id="socketService3"></span><br>    
-        <span id="socketService4"></span><br>    
-        <span id="socketService5"></span><br>    
-        <span id="socketService6"></span><br>    
-        <span id="socketService7"></span><br>    
-        <span id="socketService8"></span><br>    
-        <span id="socketService9"></span><br>    
-        <span id="socketService10"></span><br>    
-        <span id="socketService11"></span><br>    
-        <span id="socketService12"></span><br>                                                                                                                                                                       
-    </div>
-    <div class="pin pin-down" data-xpos="250" data-ypos="305">
-        <h2>Mobile</h2><br>
-        <label><b>Status: </b> </label><span id="phoneStatus"></span><br>
-        <label><b>Type:</b> </label><span id="phoneType"></span><br>
-        <label><b>Current: </label><span id="appCurrent"></span><br>                  
-        <label><b>Temperature: </label><span id="appTemp"></span><br>        
-        <label><b>Service:</b> </label><br>                                                           
-        <span id="phoneService1"></span><br>                   
-    </div>
     <div class="pin pin-down" data-xpos="50" data-ypos="325">
         <h2>Media Server</h2><br>
         <label><b>Status:</b> </label><span id="msStatus"></span><br>
@@ -246,25 +210,7 @@
         <label><b>Service:</b> </label><br>            
         <span id="msService1"></span><br>
         <span id="msService2"></span><br>            
-    </div>
-    <div class="pin pin-down" data-xpos="510" data-ypos="325">
-        <label><b>TempA:</b> </label><span id="lightstatus"></span><br>
-        <label><b>Illumination:</b> </label><span id="lightrelay"></span><br>
-        <label><b>Current:</b> </label><span id="lightrelay"></span><br>        
-        <button id="appButton1" style="height: 50px; width: 80px" onclick=smart_home_req(0,"div_test")>Turn On</button>
-        <button id="appButton2" style="height: 50px; width: 80px" onclick=smart_home_req(1,"div_test")>Turn Off</button>
-        <button id="appButton3" style="height: 50px; width: 80px" onclick=smart_home_req(2,"div_test")>Turn On</button>
-        <button id="appButton4" style="height: 50px; width: 80px" onclick=smart_home_req(3,"div_test")>Turn Off</button>
-    </div>    
-    <div class="pin pin-down" data-xpos="60" data-ypos="15">
-        <label><b>TempB:</b> </label><span id="fanstatus"></span><br>
-        <label><b>Illumination:</b> </label><span id="fanrelay"></span><br>
-        <label><b>Current:</b> </label><span id="fanrelay"></span><br>        
-        <button id="appButton5" style="height: 50px; width: 80px" onclick=smart_home_req(0,"div_test")>Turn On</button>
-        <button id="appButton6" style="height: 50px; width: 80px" onclick=smart_home_req(1,"div_test")>Turn Off</button>
-        <button id="appButton7" style="height: 50px; width: 80px" onclick=smart_home_req(2,"div_test")>Turn On</button>
-        <button id="appButton8" style="height: 50px; width: 80px" onclick=smart_home_req(3,"div_test")>Turn Off</button>          
-    </div>            
+    </div>                  
 </div>
 <div align="center" id="div_test"></div>       
 </body>

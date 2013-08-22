@@ -1,7 +1,7 @@
 <Root>
 	<Device type="zstack" protocol="zigbee">
 		<Module>
-			<address>0x7760</address>
+			<address>0x7810</address>
 			<type>140</type>
 			<data>.......</data>
 			<room>A</room>
@@ -25,19 +25,19 @@
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>0x7750</address>
+			<address>0x7950</address>
 			<type>160</type>
 			<data>.......</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>0x7710</address>
+			<address>0x7510</address>
 			<type>190</type>
 			<data>.......</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>0x7760</address>
+			<address>0x7360</address>
 			<type>110</type>
 			<data>.......</data>
 			<room>N</room>
