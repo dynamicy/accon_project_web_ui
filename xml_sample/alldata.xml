@@ -1,5 +1,5 @@
-<root>
-	<zstack protocol="zigbee">
+<Root>
+	<Device type="zstack" protocol="zigbee">
 		<Module>
 			<address>0x7760</address>
 			<type>140</type>
@@ -42,8 +42,8 @@
 			<data>.......</data>
 			<room>N</room>
 		</Module>		
-	</zstack>
-	<SmartSocket protocol="bluebee">
+	</Device>
+	<Device type="SmartSocket" protocol="bluebee">
 		<Module>
 			<address>A</address>
 			<type>fan</type>
@@ -68,21 +68,21 @@
 			<data>On/Off;current</data>
 			<room>A</room>
 		</Module>
-	</SmartSocket>
-	<Smartphone protocol="bluetooth">
+	</Device>
+	<Device type="Smartphone" protocol="bluetooth">
 		<Module>
 			<address>MAC</address>
 			<type>voice</type>
 			<data>On/Off</data>
 			<room>N</room>
 		</Module>
-	</Smartphone>
-	<Aspire protocol="sip">
+	</Device>
+	<Device type="Aspire" protocol="sip">
 		<Module>
 			<address>ip</address>
 			<type>gesture</type>
 			<data>On/Off</data>
 			<room>N</room>
 		</Module>
-	</Aspire>
-</root>
+	</Device>
+</Root>

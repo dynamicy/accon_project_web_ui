@@ -57,14 +57,17 @@
                 var me = this;
                 me.getBundle = function (handler) 
                 {
-                    $.get('bundle.xml', function (data) 
+//                    $.get('../xml_sample/alldata.xml', function (data) 
+                    $.get('../xml_sample/bundle.xml', function (data) 
                     {
                         if (handler && data) 
                         {
                             var jRoot = [];
                             var root = $(data).find('root');
+							                                                    
                             root.children().each(function()
                             {
+//	                            var pic = $entry.find('zstack').attr('protocol');    //
                                 var bundle = $(this);
                                 var jBun = {};
                                 bundle.children().each(function () 
@@ -151,96 +154,6 @@
                     $('#socketService10').text(socketBundle.service10); 
                     $('#socketService11').text(socketBundle.service11); 
                     $('#socketService12').text(socketBundle.service12);                                                                                                                                                                                                                             
-
-                    map.updata();
-                });
-                
-                extractor.getAppliance(function (data) 
-                {
-                    var appCurrent = data.current;
-                    var appTemp = data.temperature;              
-                    var appHumi = data.humidity;
-                    var appLumi = data.luminosity;
-                    var appSta1 = data.status1;
-                    var appSta2 = data.status2;
-                    var appType1 = data.type1;
-                    var appType2 = data.type2;
-                    var appPrice = data.price;
-                    var appPriWarn = data.priceWarning;
-                    var appCurrWarn = data.currentWarning;
-                    var appRelay1 = data.relay1;
-                    var appRelay2 = data.relay2; 
-	                var lightrelay = $('#lightrelay');
-	                var lightstatus = $('#lightstatus');	                
-	                var fanrelay = $('#fanrelay');
-	                var fanstatus = $('#fanstatus');                
-                    
-                    var appBtn1 = $('#appButton1');
-	                var appBtn2 = $('#appButton2');
-                    var appBtn3 = $('#appButton3');
-	                var appBtn4 = $('#appButton4');
-                    var appBtn5 = $('#appButton5');
-	                var appBtn6 = $('#appButton6');
-                    var appBtn7 = $('#appButton7');
-	                var appBtn8 = $('#appButton8');     	                	                                                                                                                                                 
- 	                	                	                
-                    $('#appCurrent').text(appCurrent);
-                    $('#appTemp').text(appTemp);
-                    $('#appHumi').text(appHumi);
-                    $('#appLumi').text(appLumi); 
-                    $('#appStat1').text(appSta1); 
-                    $('#appStat2').text(appSta2); 
-                    $('#appType1').text(appType1);
-                    $('#appType2').text(appType2);
-                    $('#appPrice').text(appPrice);
-                    $('#appPriceWarn').text(appPriWarn);
-                    $('#appCurrWarn').text(appCurrWarn);   
-                    $('#appRelay1').text(appRelay1);
-                    $('#appRelay2').text(appRelay2);  
-                    $('#lightrelay').text(lightrelay);                                            
-                    $('#lightstatus').text(lightstatus);                                            
-                    $('#fanrelay').text(fanrelay);                                            
-                    $('#fanstatus').text(fanstatus);                                            
-                                        
-                    switch(appType1)
-                    {
-	                case "2":
-	                	// light
-	                	lightrelay.text(appRelay1);
-	                	lightstatus.text(appSta1);
-						appBtn5.show();
-						appBtn6.show();	                	
-	                	break;
-	                case "3":
-	                	// fan
-	                	fanrelay.text(appRelay1);
-	                	fanstatus.text(appSta1);	                	
-						appBtn7.show();
-						appBtn8.show();		                	
-	                	break;
-	                default:
-	                	break;    
-                    }
-
-                    switch(appType2)
-                    {
-	                case "2":
-	                	// light	
-	                	lightrelay.text(appRelay2);
-	                	lightstatus.text(appSta2);	                	
-						appBtn1.show();
-						appBtn2.show();		                	                
-	                	break;
-	                case "3":
-	                	// fan	  
-	                	fanrelay.text(appRelay2);
-	                	fanstatus.text(appSta2);	                		                	
-						appBtn3.show();
-						appBtn4.show();		                	              
-	                	break;
-	                default:
-	                	break;    
-                    }
 
                     map.updata();
                 });
