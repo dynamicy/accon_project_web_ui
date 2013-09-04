@@ -1,69 +1,69 @@
 <Root>
 	<Device type="zstack" protocol="zigbee">
 		<Module>
-			<address>0x7810</address>
-			<type>140</type>
-			<data>1</data>
+			<address>7760</address>
+			<type>M140</type>
+			<data>.......</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>0x7750</address>
-			<type>140</type>
-			<data></data>
+			<address>7750</address>
+			<type>M140</type>
+			<data>.......</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>0x7710</address>
-			<type>170</type>
+			<address>7740</address>
+			<type>M170</type>
 			<data>.......</data>
 			<room>A</room>
 		</Module>		
 		<Module>
-			<address>0x7760</address>
-			<type>170</type>
+			<address>7730</address>
+			<type>M170</type>
 			<data>.......</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>0x7950</address>
-			<type>160</type>
+			<address>7720</address>
+			<type>M160</type>
 			<data>.......</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>0x7510</address>
-			<type>190</type>
+			<address>7710</address>
+			<type>M190</type>
 			<data>.......</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>0x7360</address>
-			<type>110</type>
+			<address>7700</address>
+			<type>M110</type>
 			<data>.......</data>
 			<room>N</room>
 		</Module>		
 	</Device>
-	<Device type="SmartSocket" protocol="bluebee">
+	<Device type="SmartSocket" protocol="zigbee">
 		<Module>
-			<address>A</address>
+			<address>7770</address>
 			<type>fan</type>
 			<data>On/Off;current</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>B</address>
+			<address>7770</address>
 			<type>light</type>
 			<data>On/Off;current</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>C</address>
+			<address>7780</address>
 			<type>fan</type>
 			<data>On/Off;current</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>D</address>
+			<address>7780</address>
 			<type>light</type>
 			<data>On/Off;current</data>
 			<room>A</room>
