@@ -143,12 +143,23 @@
 	                    var smartphoneDevice = devices['smartphone'];
 	                    var smartsocketDevice = devices['smartsocket'];     
 	                    
+						var m110n = zstackDevice['110_N'];
+													                    
 						var m140a = zstackDevice['140_A'];
 						var m140b = zstackDevice['140_B'];
+
+						var m160a = zstackDevice['160_A'];
+												
+						var m170a = zstackDevice['170_A'];
+						var m170b = zstackDevice['170_B'];												
 						
 						me.curData = {
+							m110n: zstackDevice['110_N'],
 							m140a: zstackDevice['140_A'],
-							m140b: zstackDevice['140_B']
+							m140b: zstackDevice['140_B'],														
+							m160a: zstackDevice['160_A'],							
+							m170a: zstackDevice['170_A'],							
+							m170b: zstackDevice['170_B']
 						};
 						
 						var arg = {};
@@ -157,9 +168,46 @@
 						}
 						else {       	
 			            	// compare the type of bg
-							if ((me.oldData.m140a.data != me.curData.m140a.data) || (me.oldData.m140b.data != me.curData.m140b.data)) {
+							if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)) {
 								me.isChanged = true;
-								arg.BGURL = 'images/bg' + me.curData.m140a.data + "" + me.curData.m140b.data + ".png";
+								
+			                    var aRoomLightLevel;
+								var bRoomLightLevel;
+											                    
+								// Determine the level of the light
+								if(me.curData.m170a.data < 25)
+								{
+									// Low
+									aRoomLightLevel = 0;																		
+								}
+								else if(me.curData.m170a.data < 75)
+								{
+									// Normal
+									aRoomLightLevel = 1;
+								}
+								else if(me.curData.m170a.data < 100)
+								{
+									// High
+									aRoomLightLevel = 2;
+								}
+
+								if(me.curData.m170b.data < 25)
+								{
+									// Low
+									bRoomLightLevel = 0;																		
+								}
+								else if(me.curData.m170b.data < 75)
+								{
+									// Normal
+									bRoomLightLevel = 1;
+								}
+								else if(me.curData.m170b.data < 100)
+								{
+									// High
+									bRoomLightLevel = 2;
+								}								
+								
+								arg.BGURL = 'images/bg' + aRoomLightLevel + "" + bRoomLightLevel + ".png";
 							}
 							else {
 								me.isChanged = false;
@@ -305,13 +353,13 @@
         <label><b>Data:</b> </label><span id="140bData"></span><br>
     </div>         
     <div class="pin pin-down" data-xpos="200" data-ypos="120">
-        <label><b>Left Chair:</b> </label><span id="140bAddress"></span><br>
+        <label><b>Left Chair(M110):</b> </label><span id="140bAddress"></span><br>
         <label><b>Address:</b> </label><span id="140bAddress"></span><br>        
         <label><b>Type:</b> </label><span id="140bType"></span><br>
         <label><b>Data:</b> </label><span id="140bData"></span><br>
     </div>   
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
-        <label><b>Right Light:</b> </label><span id="140bAddress"></span><br>    
+        <label><b>Right Light(M160):</b> </label><span id="140bAddress"></span><br>    
         <label><b>Address:</b> </label><span id="140bAddress"></span><br>
         <label><b>Type:</b> </label><span id="140bType"></span><br>
         <label><b>Data:</b> </label><span id="140bData"></span><br>
