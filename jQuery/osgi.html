@@ -3,9 +3,42 @@
 <title></title>
 <link type="text/css" href="styles/prettyPhoto.css" rel="stylesheet" id="prettyphoto-css" media="all">
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
+<link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
+<style type="text/css">
+#ticker4
+{
+position:absolute;
+left:580px;
+top:380px;
+z-index:9001
+}
+</style>
+<style type="text/css">
+#ticker3
+{
+position:absolute;
+left:10px;
+top:10px;
+filter: Alpha(Opacity=30);
+z-index:9001
+}
+</style>
+<style type="text/css">
+#ticker2
+{
+position:absolute;
+left:0px;
+top:0px;
+filter: Alpha(Opacity=10);
+z-index:9000
+}
+</style>
 <script type='text/javascript' src='scripts/jquery-1.8.3.min.js'></script>
 <script type='text/javascript' src='scripts/jquery.prettyPhoto.js'></script>
 <script type='text/javascript' src='scripts/jquery.fancygallery.min.js'></script>
+<script type="text/javascript" src='scripts/jquery.zrssfeed.min.js'></script>
+<script type="text/javascript" src='scripts/jquery.vticker.js'></script>
+
 <script language="JavaScript">
 //<!--
 	function FP_preloadImgs() {//v1.0
@@ -156,7 +189,7 @@
 						var m190a = zstackDevice['190_A'];							
 						
 						var screena = smartsocketDevice['screen_A'];						
-						var fanb = smartsocketDevice['fan_B'];						
+						var fana = smartsocketDevice['fan_A'];						
 						var lighta = smartsocketDevice['light_A'];						
 						var lightb = smartsocketDevice['light_B'];																								
 						
@@ -170,7 +203,7 @@
 							m170b: zstackDevice['170_B'],														
 							m190a: zstackDevice['190_A'],	
 							screena: smartsocketDevice['screen_A'],	
-							fanb: smartsocketDevice['fan_B'],	
+							fana: smartsocketDevice['fan_A'],	
 							lighta: smartsocketDevice['light_A'],																													
 							lightb: smartsocketDevice['light_B']
 						};
@@ -181,7 +214,14 @@
 						}
 						else {       	
 			            	// compare the type of bg
-							if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)) {
+							if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)
+								|| (me.oldData.m110n.data != me.curData.m110n.data)
+								|| (me.oldData.m140a.data != me.curData.m140a.data)
+								|| (me.oldData.lighta.data != me.curData.lighta.data)								
+								|| (me.oldData.lightb.data != me.curData.lightb.data)
+								|| (me.oldData.fana.data != me.curData.fana.data)								
+								) 
+							{
 								me.isChanged = true;
 								
 			                    var aRoomLightLevel;
@@ -198,7 +238,7 @@
 									// Normal
 									aRoomLightLevel = 1;
 								}
-								else if(me.curData.m170a.data < 100)
+								else if(me.curData.m170a.data <= 100)
 								{
 									// High
 									aRoomLightLevel = 2;
@@ -214,13 +254,17 @@
 									// Normal
 									bRoomLightLevel = 1;
 								}
-								else if(me.curData.m170b.data < 100)
+								else if(me.curData.m170b.data <= 100)
 								{
 									// High
 									bRoomLightLevel = 2;
 								}								
 								
-								arg.BGURL = 'images/bg' + aRoomLightLevel + "" + bRoomLightLevel + ".png";
+								arg.BGURL = 'images/bg' + bRoomLightLevel + "" + aRoomLightLevel + ".png";
+								
+								lightbAddress = me.curData.m170a.address;
+								lightbType = me.curData.m170a.type;								
+								lightbData = me.curData.m170a.data;																
 							}
 							else {
 								me.isChanged = false;
@@ -252,21 +296,25 @@
                         me.wrapper.append(dirty);
                     });
 
-                    $('.tooltip-up, .tooltip-down').mouseenter(function () {
+                    $('.tooltip-up, .tooltip-down').mouseenter(function () 
+                    {
                         $(this).children('.tooltip').fadeIn(100);
                     }).mouseleave(function () {
                         $(this).children('.tooltip').fadeOut(100);
                     })
                 };
                 
-                me.clearDirty = function () {
+                me.clearDirty = function () 
+                {
                     me.wrapper.find('.tooltip-down').remove();
                     me.wrapper.find('.tooltip-up').remove();                    
                 }
 
                 me.wrappedImg = $('#wrapper img');
-                if (me.wrappedImg) {
-                    me.wrapper = $('#wrapper').css({
+                if (me.wrappedImg) 
+                {
+                    me.wrapper = $('#wrapper').css(
+                    {
                         'width': me.wrappedImg.width(),
                         'height': me.wrappedImg.height()
                     });                    
@@ -287,7 +335,7 @@
     			var m190a = arg.Data.m190a;
 
     			var screena = arg.Data.screena;
-    			var fanb = arg.Data.fanb;
+    			var fana = arg.Data.fana;
     			var lighta = arg.Data.lighta;
     			var lightb = arg.Data.lightb;    			    			    			    				
     			    			
@@ -323,9 +371,9 @@
                 $('#screenaType').text(screena.type);  
                 $('#screenaData').text(screena.data);                                                                                    
                 
-                $('#fanbAddress').text(fanb.address);       
-                $('#fanbType').text(fanb.type);  
-                $('#fanbData').text(fanb.data);                                                                                    
+                $('#fanaAddress').text(fana.address);       
+                $('#fanaType').text(fana.type);  
+                $('#fanaData').text(fana.data);                                                                                    
                 
                 $('#lightaAddress').text(lighta.address);       
                 $('#lightaType').text(lighta.type);  
@@ -334,6 +382,8 @@
                 $('#lightbAddress').text(lightb.address);       
                 $('#lightbType').text(lightb.type);  
                 $('#lightbData').text(lightb.data);                                                                                    
+
+				$("#id").floatdiv();
 
 				$('#bgsrc').attr('src', arg.BGURL);
 				
@@ -395,15 +445,25 @@
         });
     </script>
   </head>
-
 <body>
-<div id="wrapper">
-    <img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
+<div id="wrapper">    
+    <div id="ticker4" data-xpos="170" data-ypos="210">
+        <label><b>Temperature:</b> </label><span id="140aData"></span><br>        
+        <label><b>Current:</b> </label><span id="140aDatb"></span><br>
+        <label><b>Luminosity:</b> </label><span id="170aData"></span><br>                
+    </div>  
+    <div id="ticker3">
+        <label><b>Temperature:</b> </label><span id="140bData"></span><br>        
+        <label><b>Current:</b> </label><span id="140bDatb"></span><br>
+        <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
+    </div>  	 
+	<img id="ticker2" style=" filter:alpha(opacity=30); opacity:.30;" src="http://www.dennisplucinik.com/blog/wp-content/uploads/2012/03/position-absolute.jpg">
+	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="63" data-ypos="120">
         <label><b>Left Light: </b></label><br>
-        <label><b>Address:</b> </label><span id="lightaAddress"></span><br>        
-        <label><b>Type: </b></label><span id="lightaType"></span><br>
-        <label><b>Data:</b></label><span id="lightaData"></span><br>
+        <label><b>Address:</b> </label><span id="lightbAddress"></span><br>        
+        <label><b>Type: </b></label><span id="lightbType"></span><br>
+        <label><b>Data:</b></label><span id="lightbData"></span><br>
     </div>
     <div class="pin pin-down" data-xpos="170" data-ypos="210">
         <label><b>Left Screen:</b> </label><br>
@@ -419,17 +479,18 @@
     </div>   
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
         <label><b>Right Light:</b> </label><br>    
-        <label><b>Address:</b> </label><span id="lightbAddress"></span><br>
-        <label><b>Type:</b> </label><span id="lightbType"></span><br>
-        <label><b>Data:</b> </label><span id="lightbData"></span><br>
+        <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
+        <label><b>Type:</b> </label><span id="lightaType"></span><br>
+        <label><b>Data:</b> </label><span id="lightaData"></span><br>
     </div>   
     <div class="pin pin-down" data-xpos="420" data-ypos="180">
         <label><b>Right Fan:</b> </label><br>    
-        <label><b>Address:</b> </label><span id="fanbaddress"></span><br>
-        <label><b>Type:</b> </label><span id="fanbType"></span><br>
-        <label><b>Data:</b> </label><span id="fanbData"></span><br>
+        <label><b>Address:</b> </label><span id="fanaaddress"></span><br>
+        <label><b>Type:</b> </label><span id="fanaType"></span><br>
+        <label><b>Data:</b> </label><span id="fanaData"></span><br>
     </div>                        
 </div>
 <div align="center" id="div_test"></div>       
+
 </body>
 </html>
