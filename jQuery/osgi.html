@@ -127,39 +127,52 @@
                 };
             };
 
-			var ContextDataChecker = {
+			var ContextDataChecker = 
+			{
 				oldData: undefined,
 				curData: undefined,
 				isChanged: false,
 	            onChangeHandler: {},
-	            setOnChangeHandler: function(handler) {
+	            setOnChangeHandler: function(handler) 
+	            {
 		            if(handler) this.onChangeHandler = handler;
 	            },
-	            check: function(extractor) {
+	            check: function(extractor) 
+	            {
 	            	var me = this;
-	            	extractor.getBundle(function (devices) {
+	            	extractor.getBundle(function (devices) 
+	            	{
 	                    var zstackDevice = devices['zstack'];
 	                    var aspireDevice = devices['aspire'];
 	                    var smartphoneDevice = devices['smartphone'];
 	                    var smartsocketDevice = devices['smartsocket'];     
 	                    
-						var m110n = zstackDevice['110_N'];
-													                    
+						var m110n = zstackDevice['110_N'];													                    
 						var m140a = zstackDevice['140_A'];
 						var m140b = zstackDevice['140_B'];
-
-						var m160a = zstackDevice['160_A'];
-												
+						var m160a = zstackDevice['160_A'];												
 						var m170a = zstackDevice['170_A'];
 						var m170b = zstackDevice['170_B'];												
+						var m190a = zstackDevice['190_A'];							
 						
-						me.curData = {
+						var screena = smartsocketDevice['screen_A'];						
+						var fanb = smartsocketDevice['fan_B'];						
+						var lighta = smartsocketDevice['light_A'];						
+						var lightb = smartsocketDevice['light_B'];																								
+						
+						me.curData = 
+						{
 							m110n: zstackDevice['110_N'],
 							m140a: zstackDevice['140_A'],
 							m140b: zstackDevice['140_B'],														
 							m160a: zstackDevice['160_A'],							
 							m170a: zstackDevice['170_A'],							
-							m170b: zstackDevice['170_B']
+							m170b: zstackDevice['170_B'],														
+							m190a: zstackDevice['190_A'],	
+							screena: smartsocketDevice['screen_A'],	
+							fanb: smartsocketDevice['fan_B'],	
+							lighta: smartsocketDevice['light_A'],																													
+							lightb: smartsocketDevice['light_B']
 						};
 						
 						var arg = {};
@@ -263,18 +276,64 @@
 			modifyUIData();
             var map = new IMap();
             
-            ContextDataChecker.setOnChangeHandler(function(arg) {
-    			// To do   
+            ContextDataChecker.setOnChangeHandler(function(arg) 
+            {				    			
+    			var m110n = arg.Data.m110n;							    			
     			var m140a = arg.Data.m140a;
     			var m140b = arg.Data.m140b;
-    			
-    			$('#140aAddress').text(m140a.address);       
+    			var m160a = arg.Data.m160a;    			
+    			var m170a = arg.Data.m170a;
+    			var m170b = arg.Data.m170b;
+    			var m190a = arg.Data.m190a;
+
+    			var screena = arg.Data.screena;
+    			var fanb = arg.Data.fanb;
+    			var lighta = arg.Data.lighta;
+    			var lightb = arg.Data.lightb;    			    			    			    				
+    			    			
+    			$('#110nAddress').text(m110n.address);       
+                $('#110nType').text(m110n.type);  
+                $('#110nData').text(m110n.data);                      
+
+                $('#140aAddress').text(m140a.address);       
                 $('#140aType').text(m140a.type);  
-                $('#140aData').text(m140a.data);                      
-                
+                $('#140aData').text(m140a.data); 
+                                
                 $('#140bAddress').text(m140b.address);       
                 $('#140bType').text(m140b.type);  
-                $('#140bData').text(m140b.data);                      
+                $('#140bData').text(m140b.data);    
+                
+                $('#160aAddress').text(m160a.address);       
+                $('#160aType').text(m160a.type);  
+                $('#160aData').text(m160a.data);     
+                
+                $('#170aAddress').text(m170a.address);       
+                $('#170aType').text(m170a.type);  
+                $('#170aData').text(m170a.data); 
+                
+                $('#170bAddress').text(m170b.address);       
+                $('#170bType').text(m170b.type);  
+                $('#170bData').text(m170b.data); 
+                
+                $('#190aAddress').text(m190a.address);       
+                $('#190aType').text(m190a.type);  
+                $('#190aData').text(m190a.data);                                                                                    
+
+                $('#screenaAddress').text(screena.address);       
+                $('#screenaType').text(screena.type);  
+                $('#screenaData').text(screena.data);                                                                                    
+                
+                $('#fanbAddress').text(fanb.address);       
+                $('#fanbType').text(fanb.type);  
+                $('#fanbData').text(fanb.data);                                                                                    
+                
+                $('#lightaAddress').text(lighta.address);       
+                $('#lightaType').text(lighta.type);  
+                $('#lightaData').text(lighta.data);                                                                                    
+                
+                $('#lightbAddress').text(lightb.address);       
+                $('#lightbType').text(lightb.type);  
+                $('#lightbData').text(lightb.data);                                                                                    
 
 				$('#bgsrc').attr('src', arg.BGURL);
 				
@@ -341,34 +400,34 @@
 <div id="wrapper">
     <img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="63" data-ypos="120">
-        <label><b>Left Light: </b></label><span id="140aAddress"></span><br>
-        <label><b>Address:</b> </label><span id="140bAddress"></span><br>        
-        <label><b>Type: </b></label><span id="140aType"></span><br>
-        <label><b>Data:</b></label><span id="140aData"></span><br>
+        <label><b>Left Light: </b></label><br>
+        <label><b>Address:</b> </label><span id="lightaAddress"></span><br>        
+        <label><b>Type: </b></label><span id="lightaType"></span><br>
+        <label><b>Data:</b></label><span id="lightaData"></span><br>
     </div>
     <div class="pin pin-down" data-xpos="170" data-ypos="210">
-        <label><b>Left Screen:</b> </label><span id="140bAddress"></span><br>
-        <label><b>Address:</b> </label><span id="140bAddress"></span><br>        
-        <label><b>Type:</b> </label><span id="140bType"></span><br>
-        <label><b>Data:</b> </label><span id="140bData"></span><br>
+        <label><b>Left Screen:</b> </label><br>
+        <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
+        <label><b>Type:</b> </label><span id="screenaType"></span><br>
+        <label><b>Data:</b> </label><span id="screenaData"></span><br>
     </div>         
-    <div class="pin pin-down" data-xpos="200" data-ypos="120">
-        <label><b>Left Chair(M110):</b> </label><span id="140bAddress"></span><br>
-        <label><b>Address:</b> </label><span id="140bAddress"></span><br>        
-        <label><b>Type:</b> </label><span id="140bType"></span><br>
-        <label><b>Data:</b> </label><span id="140bData"></span><br>
+    <div class="pin pin-down" data-xpos="450" data-ypos="250">
+        <label><b>Right Chair(M110):</b> </label><br>
+        <label><b>Address:</b> </label><span id="110nAddress"></span><br>        
+        <label><b>Type:</b> </label><span id="110nType"></span><br>
+        <label><b>Data:</b> </label><span id="110nData"></span><br>
     </div>   
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
-        <label><b>Right Light(M160):</b> </label><span id="140bAddress"></span><br>    
-        <label><b>Address:</b> </label><span id="140bAddress"></span><br>
-        <label><b>Type:</b> </label><span id="140bType"></span><br>
-        <label><b>Data:</b> </label><span id="140bData"></span><br>
+        <label><b>Right Light:</b> </label><br>    
+        <label><b>Address:</b> </label><span id="lightbAddress"></span><br>
+        <label><b>Type:</b> </label><span id="lightbType"></span><br>
+        <label><b>Data:</b> </label><span id="lightbData"></span><br>
     </div>   
     <div class="pin pin-down" data-xpos="420" data-ypos="180">
-        <label><b>Right Fan:</b> </label><span id="140bAddress"></span><br>    
-        <label><b>Address:</b> </label><span id="140bAddress"></span><br>
-        <label><b>Type:</b> </label><span id="140bType"></span><br>
-        <label><b>Data:</b> </label><span id="140bData"></span><br>
+        <label><b>Right Fan:</b> </label><br>    
+        <label><b>Address:</b> </label><span id="fanbaddress"></span><br>
+        <label><b>Type:</b> </label><span id="fanbType"></span><br>
+        <label><b>Data:</b> </label><span id="fanbData"></span><br>
     </div>                        
 </div>
 <div align="center" id="div_test"></div>       

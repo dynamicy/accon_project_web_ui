@@ -1,69 +1,69 @@
 <Root>
 	<Device type="zstack" protocol="zigbee">
 		<Module>
-			<address>7760</address>
-			<type>M140</type>
-			<data>.......</data>
+			<address>0x7810</address>
+			<type>140</type>
+			<data>28.5</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>7750</address>
-			<type>M140</type>
-			<data>.......</data>
+			<address>0x7750</address>
+			<type>140</type>
+			<data>22.3</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>7740</address>
-			<type>M170</type>
-			<data>.......</data>
+			<address>0x7710</address>
+			<type>170</type>
+			<data>60</data>
 			<room>A</room>
 		</Module>		
 		<Module>
-			<address>7730</address>
-			<type>M170</type>
-			<data>.......</data>
+			<address>0x7760</address>
+			<type>170</type>
+			<data>30</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>7720</address>
-			<type>M160</type>
-			<data>.......</data>
+			<address>0x7950</address>
+			<type>160</type>
+			<data>50</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>7710</address>
-			<type>M190</type>
-			<data>.......</data>
+			<address>0x7510</address>
+			<type>190</type>
+			<data>70</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>7700</address>
-			<type>M110</type>
-			<data>.......</data>
+			<address>0x7360</address>
+			<type>110</type>
+			<data>300</data>
 			<room>N</room>
 		</Module>		
 	</Device>
-	<Device type="SmartSocket" protocol="zigbee">
+	<Device type="SmartSocket" protocol="bluebee">
 		<Module>
-			<address>7770</address>
+			<address>A</address>
 			<type>fan</type>
 			<data>On/Off;current</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>7770</address>
+			<address>B</address>
 			<type>light</type>
 			<data>On/Off;current</data>
 			<room>B</room>
 		</Module>
 		<Module>
-			<address>7780</address>
-			<type>fan</type>
+			<address>C</address>
+			<type>screen</type>
 			<data>On/Off;current</data>
 			<room>A</room>
 		</Module>
 		<Module>
-			<address>7780</address>
+			<address>D</address>
 			<type>light</type>
 			<data>On/Off;current</data>
 			<room>A</room>
