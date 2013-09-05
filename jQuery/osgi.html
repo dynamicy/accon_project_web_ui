@@ -3,11 +3,18 @@
 <title></title>
 <link type="text/css" href="styles/prettyPhoto.css" rel="stylesheet" id="prettyphoto-css" media="all">
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
-<link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
+#bgsrc
+{
+position:fixed;
+left:0px;
+top:0px;
+z-index:8000
+}
+
 #ticker5
 {
-position:absolute;
+position:fixed;
 left:550px;
 top:350px;
 filter: Alpha(Opacity=10);
@@ -16,7 +23,7 @@ z-index:9000
 
 #ticker4
 {
-position:absolute;
+position:fixed;
 left:560px;
 top:360px;
 z-index:9001
@@ -24,16 +31,16 @@ z-index:9001
 
 #ticker3
 {
-position:absolute;
+position:fixed;
 left:40px;
 top:40px;
 filter: Alpha(Opacity=30);
-z-index:9001
+z-index:9002
 }
 
 #ticker2
 {
-position:absolute;
+position:fixed;
 left:30px;
 top:30px;
 filter: Alpha(Opacity=10);
