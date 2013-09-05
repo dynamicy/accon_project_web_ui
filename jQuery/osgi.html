@@ -5,6 +5,15 @@
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
 <link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
+#ticker5
+{
+position:absolute;
+left:550px;
+top:350px;
+filter: Alpha(Opacity=10);
+z-index:9000
+}
+
 #ticker4
 {
 position:absolute;
@@ -12,8 +21,7 @@ left:560px;
 top:360px;
 z-index:9001
 }
-</style>
-<style type="text/css">
+
 #ticker3
 {
 position:absolute;
@@ -22,8 +30,7 @@ top:40px;
 filter: Alpha(Opacity=30);
 z-index:9001
 }
-</style>
-<style type="text/css">
+
 #ticker2
 {
 position:absolute;
@@ -452,16 +459,17 @@ z-index:9000
 <body>
 <div id="wrapper">    
     <div id="ticker4" data-xpos="170" data-ypos="210">
-        <label><b>Temperature:</b> </label><span id="140aData"></span><br>        
+        <label><b>Temp:</b> </label><span id="140aData"></span><br>        
         <label><b>Current:</b> </label><span id="140aDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170aData"></span><br>                
     </div>  
     <div id="ticker3">
-        <label><b>Temperature:</b> </label><span id="140bData"></span><br>        
+        <label><b>Temp:</b> </label><span id="140bData"></span><br>        
         <label><b>Current:</b> </label><span id="140bDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
-	<img id="ticker2" style=" filter:alpha(opacity=50); opacity:.50;" src="http://www.dennisplucinik.com/blog/wp-content/uploads/2012/03/position-absolute.jpg" height=70 width=140>
+	<img id="ticker2" style=" filter:alpha(opacity=50); opacity:.50;" src="images/box.png" height=90 width=150>
+	<img id="ticker5" style=" filter:alpha(opacity=50); opacity:.50;" src="images/box.png" height=90 width=150>	
 	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="63" data-ypos="150">
         <label><b>Left Light: </b></label><br>
