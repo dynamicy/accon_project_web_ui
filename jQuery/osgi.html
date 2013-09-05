@@ -5,13 +5,45 @@
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
 <link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
+#voice
+{
+position:fixed;
+left:250px;
+top:430px;
+z-index:9000
+}
+
+#context
+{
+position:fixed;
+left:325px;
+top:430px;
+z-index:9000
+}
+
+#gesture
+{
+position:fixed;
+left:405px;
+top:430px;
+z-index:9000
+}
+
+#bgsrc
+{
+position:fixed;
+left:32px;
+top:52px;
+z-index:0
+}
+
 #ticker4
 {
 position:absolute;
 left:550px;
 top:360px;
 filter: Alpha(Opacity=10);
-z-index:9001
+z-index:900
 }
 
 #ticker3
@@ -20,7 +52,7 @@ position:absolute;
 left:40px;
 top:38px;
 filter: Alpha(Opacity=30);
-z-index:9001
+z-index:900
 }
 </style>
 <script type='text/javascript' src='scripts/jquery-1.8.3.min.js'></script>
@@ -451,8 +483,10 @@ z-index:9001
         <label><b>Current:</b> </label><span id="140bDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
-
 	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
+	<img width="50" height="50" src="images/voice_on.png" id="voice">
+	<img width="50" height="50" src="images/gesture_on.png" id="gesture">
+	<img width="50" height="50" src="images/context_on.png" id="context">	
     <div class="pin pin-down" data-xpos="60" data-ypos="145">
         <label><b>Left Light: </b></label><br>
         <label><b>Address:</b> </label><span id="lightbAddress"></span><br>        
