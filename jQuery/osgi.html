@@ -8,8 +8,8 @@
 #ticker4
 {
 position:absolute;
-left:580px;
-top:380px;
+left:560px;
+top:360px;
 z-index:9001
 }
 </style>
@@ -17,8 +17,8 @@ z-index:9001
 #ticker3
 {
 position:absolute;
-left:10px;
-top:10px;
+left:40px;
+top:40px;
 filter: Alpha(Opacity=30);
 z-index:9001
 }
@@ -27,8 +27,8 @@ z-index:9001
 #ticker2
 {
 position:absolute;
-left:0px;
-top:0px;
+left:30px;
+top:30px;
 filter: Alpha(Opacity=10);
 z-index:9000
 }
@@ -212,9 +212,11 @@ z-index:9000
 						if(!me.oldData) {
 							me.isChanged = true;
 						}
-						else {       	
+						else 
+						{       	
 			            	// compare the type of bg
-							if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)
+							if ((me.oldData.m170a.data != me.curData.m170a.data) 
+								|| (me.oldData.m170b.data != me.curData.m170b.data)
 								|| (me.oldData.m110n.data != me.curData.m110n.data)
 								|| (me.oldData.m140a.data != me.curData.m140a.data)
 								|| (me.oldData.lighta.data != me.curData.lighta.data)								
@@ -273,7 +275,8 @@ z-index:9000
 						
 						me.oldData = me.curData;
 						arg.Data = me.curData;
-		            	if(me.isChanged && me.onChangeHandler) {	
+		            	if(me.isChanged && me.onChangeHandler) 
+		            	{	
 							me.onChangeHandler(arg); 
 		            	}
 					});
@@ -281,13 +284,16 @@ z-index:9000
             };
             
             
-            var IMap = function () {
+            var IMap = function () 
+            {
                 var me = this;
 
-                me.updata = function () {                  
+                me.updata = function () 
+                {
                     var pins = $(".pin");
                     me.clearDirty();
-                    pins.each(function () {
+                    pins.each(function () 
+                    {
                         var pin = $(this);
                         var tooltipDirection = pin.hasClass('pin-down') ? 'tooltip-down' : 'tooltip-up';
                         var tooltip = $('<div class="tooltip">' + pin.html() + '</div>');
@@ -383,8 +389,6 @@ z-index:9000
                 $('#lightbType').text(lightb.type);  
                 $('#lightbData').text(lightb.data);                                                                                    
 
-				$("#id").floatdiv();
-
 				$('#bgsrc').attr('src', arg.BGURL);
 				
                 map.updata(); 
@@ -457,9 +461,9 @@ z-index:9000
         <label><b>Current:</b> </label><span id="140bDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
-	<img id="ticker2" style=" filter:alpha(opacity=30); opacity:.30;" src="http://www.dennisplucinik.com/blog/wp-content/uploads/2012/03/position-absolute.jpg">
+	<img id="ticker2" style=" filter:alpha(opacity=50); opacity:.50;" src="http://www.dennisplucinik.com/blog/wp-content/uploads/2012/03/position-absolute.jpg" height=70 width=140>
 	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
-    <div class="pin pin-down" data-xpos="63" data-ypos="120">
+    <div class="pin pin-down" data-xpos="63" data-ypos="150">
         <label><b>Left Light: </b></label><br>
         <label><b>Address:</b> </label><span id="lightbAddress"></span><br>        
         <label><b>Type: </b></label><span id="lightbType"></span><br>
@@ -471,7 +475,7 @@ z-index:9000
         <label><b>Type:</b> </label><span id="screenaType"></span><br>
         <label><b>Data:</b> </label><span id="screenaData"></span><br>
     </div>         
-    <div class="pin pin-down" data-xpos="450" data-ypos="250">
+    <div class="pin pin-down" data-xpos="450" data-ypos="270">
         <label><b>Right Chair(M110):</b> </label><br>
         <label><b>Address:</b> </label><span id="110nAddress"></span><br>        
         <label><b>Type:</b> </label><span id="110nType"></span><br>
@@ -483,7 +487,7 @@ z-index:9000
         <label><b>Type:</b> </label><span id="lightaType"></span><br>
         <label><b>Data:</b> </label><span id="lightaData"></span><br>
     </div>   
-    <div class="pin pin-down" data-xpos="420" data-ypos="180">
+    <div class="pin pin-down" data-xpos="600" data-ypos="180">
         <label><b>Right Fan:</b> </label><br>    
         <label><b>Address:</b> </label><span id="fanaaddress"></span><br>
         <label><b>Type:</b> </label><span id="fanaType"></span><br>
