@@ -3,18 +3,11 @@
 <title></title>
 <link type="text/css" href="styles/prettyPhoto.css" rel="stylesheet" id="prettyphoto-css" media="all">
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
+<link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
-#bgsrc
-{
-position:fixed;
-left:0px;
-top:0px;
-z-index:8000
-}
-
 #ticker5
 {
-position:fixed;
+position:absolute;
 left:550px;
 top:350px;
 filter: Alpha(Opacity=10);
@@ -23,7 +16,7 @@ z-index:9000
 
 #ticker4
 {
-position:fixed;
+position:absolute;
 left:560px;
 top:360px;
 z-index:9001
@@ -31,16 +24,16 @@ z-index:9001
 
 #ticker3
 {
-position:fixed;
+position:absolute;
 left:40px;
 top:40px;
 filter: Alpha(Opacity=30);
-z-index:9002
+z-index:9001
 }
 
 #ticker2
 {
-position:fixed;
+position:absolute;
 left:30px;
 top:30px;
 filter: Alpha(Opacity=10);
@@ -475,8 +468,7 @@ z-index:9000
         <label><b>Current:</b> </label><span id="140bDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
-	<img id="ticker2" style=" filter:alpha(opacity=50); opacity:.50;" src="images/box.png" height=90 width=150>
-	<img id="ticker5" style=" filter:alpha(opacity=50); opacity:.50;" src="images/box.png" height=90 width=150>	
+
 	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
     <div class="pin pin-down" data-xpos="63" data-ypos="150">
         <label><b>Left Light: </b></label><br>
