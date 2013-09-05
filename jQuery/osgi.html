@@ -5,20 +5,12 @@
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
 <link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
-#ticker5
-{
-position:absolute;
-left:550px;
-top:350px;
-filter: Alpha(Opacity=10);
-z-index:9000
-}
-
 #ticker4
 {
 position:absolute;
-left:560px;
+left:550px;
 top:360px;
+filter: Alpha(Opacity=10);
 z-index:9001
 }
 
@@ -26,18 +18,9 @@ z-index:9001
 {
 position:absolute;
 left:40px;
-top:40px;
+top:38px;
 filter: Alpha(Opacity=30);
 z-index:9001
-}
-
-#ticker2
-{
-position:absolute;
-left:30px;
-top:30px;
-filter: Alpha(Opacity=10);
-z-index:9000
 }
 </style>
 <script type='text/javascript' src='scripts/jquery-1.8.3.min.js'></script>
@@ -470,31 +453,25 @@ z-index:9000
     </div>  	 
 
 	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
-    <div class="pin pin-down" data-xpos="63" data-ypos="150">
+    <div class="pin pin-down" data-xpos="60" data-ypos="145">
         <label><b>Left Light: </b></label><br>
         <label><b>Address:</b> </label><span id="lightbAddress"></span><br>        
         <label><b>Type: </b></label><span id="lightbType"></span><br>
         <label><b>Data:</b></label><span id="lightbData"></span><br>
     </div>
-    <div class="pin pin-down" data-xpos="170" data-ypos="210">
+    <div class="pin pin-down" data-xpos="580" data-ypos="180">    
         <label><b>Left Screen:</b> </label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
         <label><b>Type:</b> </label><span id="screenaType"></span><br>
         <label><b>Data:</b> </label><span id="screenaData"></span><br>
     </div>         
-    <div class="pin pin-down" data-xpos="450" data-ypos="270">
-        <label><b>Right Chair(M110):</b> </label><br>
-        <label><b>Address:</b> </label><span id="110nAddress"></span><br>        
-        <label><b>Type:</b> </label><span id="110nType"></span><br>
-        <label><b>Data:</b> </label><span id="110nData"></span><br>
-    </div>   
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
         <label><b>Right Light:</b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
         <label><b>Type:</b> </label><span id="lightaType"></span><br>
         <label><b>Data:</b> </label><span id="lightaData"></span><br>
     </div>   
-    <div class="pin pin-down" data-xpos="600" data-ypos="180">
+    <div class="pin pin-down" data-xpos="200" data-ypos="210">
         <label><b>Right Fan:</b> </label><br>    
         <label><b>Address:</b> </label><span id="fanaaddress"></span><br>
         <label><b>Type:</b> </label><span id="fanaType"></span><br>
