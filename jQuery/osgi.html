@@ -306,7 +306,19 @@ $(document).ready(function ()
 							var bRoomLightLevel;
 							var voiceState;
 							var gestureState;
-							var contextState;							
+							var contextState;		
+
+							var screenBtn1 = $('#screenButton1');
+							var screenBtn2 = $('#screenButton2');
+                
+							var lampBtn1 = $('#lampButton1');
+							var lampBtn2 = $('#lampButton2');
+                
+							var lightBtn1 = $('#lightButton1');
+							var lightBtn2 = $('#lightButton2');
+
+							var fanBtn1 = $('#fanButton1');
+							var fanBtn2 = $('#fanButton2');												
 										                    
 							// Determine the level of the light
 							if(me.curData.m170a.data < 25)
@@ -377,6 +389,59 @@ $(document).ready(function ()
 								contextState = "off";								
 							}							
 							arg.CONTEXTURL = 'images/context' + "_" + contextState + ".png";														
+							
+							
+							// Light button
+							var lightaarray = me.curData.lighta.data.split(';');	
+							if(lightaarray[0] == "On")
+							{	                	        
+								lightBtn1.show();
+								lightBtn2.show();		
+							}
+							else
+							{
+								lightBtn1.hide();
+								lightBtn2.hide();							
+							}							
+		
+							// Screen button
+							var screenaarray = me.curData.screena.data.split(';');	
+							if(screenaarray[0] == "On")
+							{	                	        
+								screenBtn1.show();
+								screenBtn2.show();
+							}
+							else
+							{
+								screenBtn1.hide();
+								screenBtn2.hide();						
+							}	
+				
+							// Lamp button
+							var lampbarray = me.curData.lampb.data.split(';');	
+							if(lampbarray[0] == "On")
+							{	                	        
+								lampBtn1.show();
+								lampBtn2.show();			
+							}
+							else
+							{
+								lampBtn1.hide();
+								lampBtn2.hide();
+							}	
+
+							// Fan button
+							var fanbarray = me.curData.fanb.data.split(';');	
+							if(fanbarray[0] == "On")
+							{	                	        
+								fanBtn1.show();
+								fanBtn2.show();			
+							}
+							else
+							{
+								fanBtn1.hide();
+								fanBtn2.hide();
+							}								
 							
 							lightaAddress = me.curData.lighta.address;
 							lightaType = me.curData.lighta.type;								
@@ -595,24 +660,30 @@ $(document).ready(function ()
       		// Initial
         	if(!extractor)
         	{
-                var appBtn1 = $('#appButton1');
-                var appBtn2 = $('#appButton2');
-                var appBtn3 = $('#appButton3');
-                var appBtn4 = $('#appButton4');
-                var appBtn5 = $('#appButton5');
-                var appBtn6 = $('#appButton6');
-                var appBtn7 = $('#appButton7');
-                var appBtn8 = $('#appButton8');
-                	        
-				appBtn1.hide();
-				appBtn2.hide();
-				appBtn3.hide();
-				appBtn4.hide();
-				appBtn5.hide();
-				appBtn6.hide();
-				appBtn7.hide();
-				appBtn8.hide();																					                	                                       
-            	return;           	
+                var screenBtn1 = $('#screenButton1');
+                var screenBtn2 = $('#screenButton2');
+                
+                var lampBtn1 = $('#lampButton1');
+                var lampBtn2 = $('#lampButton2');
+                
+                var lightBtn1 = $('#lightButton1');
+                var lightBtn2 = $('#lightButton2');
+
+                var fanBtn1 = $('#fanButton1');
+                var fanBtn2 = $('#fanButton2');             
+				
+				screenBtn1.hide();
+				screenBtn2.hide();
+				
+				lampBtn1.hide();
+				lampBtn2.hide();
+								                	        
+				lightBtn1.hide();
+				lightBtn2.hide();
+				
+				fanBtn1.hide();
+				fanBtn2.hide();
+				return;           	
         	}
 
         	/* Normal case
@@ -661,31 +732,47 @@ $(document).ready(function ()
         <label><b>Lamp:</b> </label><br>        
         <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
         <label><b>Type: </b></label><span id="lampbType"></span><br>
-        <label><b>Data:</b></label><span id="lampbData"></span><br>              
+        <label><b>Data:</b></label><span id="lampbData"></span><br>  
+        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <button id="lampButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
+        <button id="lampButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
+        <br><img src="images/pc1.jpeg" width="210"><br>                      
     </div>
     <div class="pin pin-down" data-xpos="580" data-ypos="180">    
         <label><b>Screen: </b></label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
         <label><b>Type:</b> </label><span id="screenaType"></span><br>
-        <label><b>Data:</b> </label><span id="screenaData"></span><br>               
+        <label><b>Data:</b> </label><span id="screenaData"></span><br>
+        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <button id="screenButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
+        <button id="screenButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
+        <br><img src="images/pc2.jpeg" width="210"><br>                       
     </div>         
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
         <label><b>Light:</b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
         <label><b>Type:</b> </label><span id="lightaType"></span><br>
-        <label><b>Data:</b> </label><span id="lightaData"></span><br>               
+        <label><b>Data:</b> </label><span id="lightaData"></span><br>     
+        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <button id="lightButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
+        <button id="lightButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
+        <br><img src="images/pc1.jpeg" width="210"><br>                  
     </div>   
     <div class="pin pin-down" data-xpos="200" data-ypos="210">
         <label><b>Fan:</b> </label><br>    
         <label><b>Address:</b> </label><span id="fanbAddress"></span><br>
         <label><b>Type:</b> </label><span id="fanbType"></span><br>
-        <label><b>Data:</b> </label><span id="fanbData"></span><br>              
+        <label><b>Data:</b> </label><span id="fanbData"></span><br>     
+        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <button id="fanButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
+        <button id="fanButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
+        <br><img src="images/pc2.jpeg" width="210"><br>                 
     </div>      
     <div class="pin pin-down" data-xpos="350" data-ypos="210">
         <label><b>voices:</b> </label><br>    
         <label><b>Address:</b> </label><span id="voicesAddress"></span><br>
         <label><b>Type:</b> </label><span id="voicesType"></span><br>
-        <label><b>Data:</b> </label><span id="voicesData"></span><br>             
+        <label><b>Data:</b> </label><span id="voicesData"></span><br>                   
     </div>                        
 </div>
 <div align="center" id="div_test"></div>       
