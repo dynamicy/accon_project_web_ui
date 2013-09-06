@@ -230,7 +230,8 @@ $(document).ready(function ()
                     var zstackDevice = devices['zstack'];
                     var aspireDevice = devices['aspire'];
                     var smartphoneDevice = devices['smartphone'];
-                    var smartsocketDevice = devices['smartsocket'];     
+                    var smartsocketDevice = devices['smartsocket'];  
+                    var gatewayDevice = devices['gateway'];                         
                     
                     // Z-Stack Device
 					var m110n = zstackDevice['M110_N'];													                    
@@ -248,8 +249,14 @@ $(document).ready(function ()
 					var lampb = smartsocketDevice['Lamp_B'];						
 					
 					// Smart Phone Device
-					var voices = smartphoneDevice['voice_S'];								
+					var voices = smartphoneDevice['voice_S'];	
+					
+					// Aspire Device
+					var gestures = aspireDevice['gesture_S'];													
 
+					// Gateway Device
+					var contextaways = gatewayDevice['contextaware_S'];	
+					
 					me.curData = 
 					{
 	                    // Z-Stack Device
@@ -268,7 +275,13 @@ $(document).ready(function ()
 						lampb: smartsocketDevice['Lamp_B'],
 						
 						// Smart Phone Device						
-						voices: smartphoneDevice['voice_S']							
+						voices: smartphoneDevice['voice_S'],
+						
+						// Aspire Device
+						gestures: aspireDevice['gesture_S'],
+						
+						// Gateway Device
+						contextaways: gatewayDevice['contextaware_S']																	
 					};
 					
 					var arg = {};
@@ -283,6 +296,8 @@ $(document).ready(function ()
 							|| (me.oldData.m110n.data != me.curData.m110n.data) || (me.oldData.m140a.data != me.curData.m140a.data)
 							|| (me.oldData.lighta.data != me.curData.lighta.data) || (me.oldData.screena.data != me.curData.screena.data)
 							|| (me.oldData.lampb.data != me.curData.lampb.data)	|| (me.oldData.fanb.data != me.curData.fanb.data)
+							|| (me.oldData.contextaways.data != me.curData.contextaways.data)
+							|| (me.oldData.gestures.data != me.curData.gestures.data)														
 							|| (me.oldData.voices.data != me.curData.voices.data)) 
 						{
 							me.isChanged = true;
@@ -328,6 +343,7 @@ $(document).ready(function ()
 							
 							arg.BGURL = 'images/bg' + bRoomLightLevel + "" + aRoomLightLevel + ".png";
 							
+							// Voice
 							if(me.curData.voices.data == "On")
 							{
 								voiceState = "on";
@@ -338,8 +354,9 @@ $(document).ready(function ()
 							}
 							arg.VOICEURL = 'images/voice' + "_" + voiceState + ".png";
 							
-							var screenaarray = me.curData.screena.data.split(';');	
-							if(screenaarray[0] == "On")
+							// Gesture
+							var gesturesarray = me.curData.gestures.data.split(';');	
+							if(gesturesarray[0] == "On")
 							{
 								gestureState = "on";
 							}
@@ -349,8 +366,9 @@ $(document).ready(function ()
 							}
 							arg.GESTUREURL = 'images/gesture' + "_" + gestureState + ".png";							
 							
-							var lightaarray = me.curData.lighta.data.split(';');	
-							if(lightaarray[0] == "On")
+							// Context away
+							var contextawaysarray = me.curData.contextaways.data.split(';');	
+							if(contextawaysarray[0] == "On")
 							{
 								contextState = "on";
 							}
@@ -463,14 +481,11 @@ $(document).ready(function ()
 			var screenaarray = screena.data.split(';'); 
 			var fanbarray = fanb.data.split(';'); 
 			var lightaarray = lighta.data.split(';'); 
-			var lampbarray = lampb.data.split(';');  
-			var voicesarray = voices.data.split('; ');	   			    			    					
+			var lampbarray = lampb.data.split(';');  			    			    					
 
 			$('#voicesAddress').text(voices.address);       
             $('#voicesType').text(voices.type);                  
-            $('#voicesData').text(voices.data); 
-            $('#voicesDataA').text(voicesarray[0]); 
-            $('#voicesDataB').text(voicesarray[1]);                         
+            $('#voicesData').text(voices.data);                        
 			    			
 			$('#110nAddress').text(m110n.address);       
             $('#110nType').text(m110n.type);  
@@ -639,9 +654,7 @@ $(document).ready(function ()
         <label><b>voices:</b> </label><br>    
         <label><b>Address:</b> </label><span id="voicesAddress"></span><br>
         <label><b>Type:</b> </label><span id="voicesType"></span><br>
-        <label><b>Data:</b> </label><span id="voicesData"></span><br>
-        <label><b>DataA:</b> </label><span id="voicesDataA"></span><br>
-        <label><b>DataB:</b> </label><span id="voicesDataB"></span><br>                
+        <label><b>Data:</b> </label><span id="voicesData"></span><br>             
     </div>                        
 </div>
 <div align="center" id="div_test"></div>       
