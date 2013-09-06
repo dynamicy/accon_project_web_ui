@@ -74,17 +74,45 @@ z-index:900
 	 elm.$src=elm.src; elm.src=args[n+1]; } }
 	}
 	
-	function FP_getObjectByID(id,o) {//v1.0
-	 var c,el,els,f,m,n; if(!o)o=document; if(o.getElementById) el=o.getElementById(id);
-	 else if(o.layers) c=o.layers; else if(o.all) el=o.all[id]; if(el) return el;
-	 if(o.id==id || o.name==id) return o; if(o.childNodes) c=o.childNodes; if(c)
-	 for(n=0; n<c.length; n++) { el=FP_getObjectByID(id,c[n]); if(el) return el; }
-	 f=o.forms; if(f) for(n=0; n<f.length; n++) { els=f[n].elements;
-	 for(m=0; m<els.length; m++){ el=FP_getObjectByID(id,els[n]); if(el) return el; } }
+	function FP_getObjectByID(id,o) 
+	{//v1.0
+	 	var c,el,els,f,m,n; 
+	 	if(!o)
+	 		o=document; 
+	 	if(o.getElementById) 
+	 		el=o.getElementById(id);
+	 	else if(o.layers) 
+	 		c=o.layers; 
+	 	else if(o.all) 
+	 		el=o.all[id]; 
+	 	if(el) return el;
+	 
+	 	if(o.id==id || o.name==id) return o; 
+	 	if(o.childNodes) c=o.childNodes; 
+	 	if(c)
+	 		for(n=0; n<c.length; n++) 
+	 		{ 
+	 			el=FP_getObjectByID(id,c[n]); 
+	 			if(el) 
+	 				return el; 
+	 		}
+	 f=o.forms; 
+	 if(f) 
+	 	for(n=0; n<f.length; n++) 
+	 	{ 
+	 		els=f[n].elements;
+	 for(m=0; m<els.length; m++)
+	 { 
+	 	el=FP_getObjectByID(id,els[n]); 
+	 	if(el) 
+	 	return el; 
+	 } 
+	 }
 	 return null;
 	}
 // -->
-	function smart_home_req(val,obj_name){
+	function smart_home_req(val,obj_name)
+	{
 		var msg = new Array();
 		msg[0]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay1_ON";
 		msg[1]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay1_OFF";
@@ -93,63 +121,31 @@ z-index:900
 		$.get("socket_client.php?msg="+msg[val], function(data){check_error(data,val,obj_name)});
 	}
 	
-	function check_error(data,val,obj_name){
+	function check_error(data,val,obj_name)
+	{
 		//var obj_id='div_test';
-		if(data=="Fail\n"){
+		if(data=="Fail\n")
+		{
 			setTimeout(function(){smart_home_req(val,obj)},1000);
 		}
-		else{
+		else
+		{
 			var obj = document.getElementById(obj_name);
 			obj.innerHTML = data;//Return Message
 		}
 	}
 </script>
-    <script type="text/javascript">
-        $(document).ready(function () 
+<script type="text/javascript">
+$(document).ready(function () 
+    {
+        var DataExtractor = function () 
         {
-            var DataExtractor = function () 
+            var me = this;
+            me.getBundle = function (handler) 
             {
-                var me = this;
-                me.getBundle = function (handler) 
-                {
-                	$.ajax({
-	                	url: '../xml_sample/alldata.xml',
-	                	success: function (data) {
-	                        if (handler && data) 
-	                        {
-	                            var devices = {};
-	                            var root = $(data).find('Root');
-								                                                    
-	                            root.children().each(function()
-	                            {
-	                                var device = $(this);
-	                                var did = device.attr('type').toLowerCase();
-	                                var modules = {};
-	                                                               
-	                                device.children().each(function () 
-	                                {
-	                                	var module = {};
-	                                	$(this).children().each(function(){
-	                                		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
-		                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
-	                                	});
-	                                	
-	                                	modules[module.type + '_' + module.room] = module;
-	                                    //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
-	                                });
-	                           
-	                                devices[did] = modules;
-	                                
-	                            });
-	                            handler(devices);
-	                        }
-	                    },
-	                    cache: false
-                	});
-                	
-                	/*
-                    $.get('../xml_sample/alldata.xml', function (data) 
-                    {
+            	$.ajax({
+                	url: '../xml_sample/alldata.xml',
+                	success: function (data) {
                         if (handler && data) 
                         {
                             var devices = {};
@@ -164,7 +160,8 @@ z-index:900
                                 device.children().each(function () 
                                 {
                                 	var module = {};
-                                	$(this).children().each(function(){
+                                	$(this).children().each(function()
+                                	{
                                 		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
 	                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
                                 	});
@@ -172,305 +169,386 @@ z-index:900
                                 	modules[module.type + '_' + module.room] = module;
                                     //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
                                 });
-                           
                                 devices[did] = modules;
-                                
                             });
                             handler(devices);
                         }
-                    });*/
-                };
+                    },
+                    cache: false
+            	});
+            	
+            	/*
+                $.get('../xml_sample/alldata.xml', function (data) 
+                {
+                    if (handler && data) 
+                    {
+                        var devices = {};
+                        var root = $(data).find('Root');
+						                                                    
+                        root.children().each(function()
+                        {
+                            var device = $(this);
+                            var did = device.attr('type').toLowerCase();
+                            var modules = {};
+                                                           
+                            device.children().each(function () 
+                            {
+                            	var module = {};
+                            	$(this).children().each(function(){
+                            		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
+                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
+                            	});
+                            	
+                            	modules[module.type + '_' + module.room] = module;
+                                //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
+                            });
+                       
+                            devices[did] = modules;
+                            
+                        });
+                        handler(devices);
+                    }
+                });*/
             };
+        };
 
-			var ContextDataChecker = 
-			{
-				oldData: undefined,
-				curData: undefined,
-				isChanged: false,
-	            onChangeHandler: {},
-	            setOnChangeHandler: function(handler) 
-	            {
-		            if(handler) this.onChangeHandler = handler;
-	            },
-	            check: function(extractor) 
-	            {
-	            	var me = this;
-	            	extractor.getBundle(function (devices) 
-	            	{
-	                    var zstackDevice = devices['zstack'];
-	                    var aspireDevice = devices['aspire'];
-	                    var smartphoneDevice = devices['smartphone'];
-	                    var smartsocketDevice = devices['smartsocket'];     
-	                    
-						var m110n = zstackDevice['110_N'];													                    
-						var m140a = zstackDevice['140_A'];
-						var m140b = zstackDevice['140_B'];
-						var m160a = zstackDevice['160_A'];												
-						var m170a = zstackDevice['170_A'];
-						var m170b = zstackDevice['170_B'];												
-						var m190a = zstackDevice['190_A'];							
-						
-						var screena = smartsocketDevice['screen_A'];						
-						var fana = smartsocketDevice['fan_A'];						
-						var lighta = smartsocketDevice['light_A'];						
-						var lightb = smartsocketDevice['light_B'];																								
-						
-						me.curData = 
-						{
-							m110n: zstackDevice['110_N'],
-							m140a: zstackDevice['140_A'],
-							m140b: zstackDevice['140_B'],														
-							m160a: zstackDevice['160_A'],							
-							m170a: zstackDevice['170_A'],							
-							m170b: zstackDevice['170_B'],														
-							m190a: zstackDevice['190_A'],	
-							screena: smartsocketDevice['screen_A'],	
-							fana: smartsocketDevice['fan_A'],	
-							lighta: smartsocketDevice['light_A'],																													
-							lightb: smartsocketDevice['light_B']
-						};
-						
-						var arg = {};
-						if(!me.oldData) {
-							me.isChanged = true;
-						}
-						else 
-						{       	
-			            	// compare the type of bg
-							if ((me.oldData.m170a.data != me.curData.m170a.data) 
-								|| (me.oldData.m170b.data != me.curData.m170b.data)
-								|| (me.oldData.m110n.data != me.curData.m110n.data)
-								|| (me.oldData.m140a.data != me.curData.m140a.data)
-								|| (me.oldData.lighta.data != me.curData.lighta.data)								
-								|| (me.oldData.lightb.data != me.curData.lightb.data)
-								|| (me.oldData.fana.data != me.curData.fana.data)								
-								) 
-							{
-								me.isChanged = true;
-								
-			                    var aRoomLightLevel;
-								var bRoomLightLevel;
-											                    
-								// Determine the level of the light
-								if(me.curData.m170a.data < 25)
-								{
-									// Low
-									aRoomLightLevel = 0;																		
-								}
-								else if(me.curData.m170a.data < 75)
-								{
-									// Normal
-									aRoomLightLevel = 1;
-								}
-								else if(me.curData.m170a.data <= 100)
-								{
-									// High
-									aRoomLightLevel = 2;
-								}
-
-								if(me.curData.m170b.data < 25)
-								{
-									// Low
-									bRoomLightLevel = 0;																		
-								}
-								else if(me.curData.m170b.data < 75)
-								{
-									// Normal
-									bRoomLightLevel = 1;
-								}
-								else if(me.curData.m170b.data <= 100)
-								{
-									// High
-									bRoomLightLevel = 2;
-								}								
-								
-								arg.BGURL = 'images/bg' + bRoomLightLevel + "" + aRoomLightLevel + ".png";
-								
-								lightbAddress = me.curData.m170a.address;
-								lightbType = me.curData.m170a.type;								
-								lightbData = me.curData.m170a.data;																
-							}
-							else {
-								me.isChanged = false;
-							}
-						}
-						
-						me.oldData = me.curData;
-						arg.Data = me.curData;
-		            	if(me.isChanged && me.onChangeHandler) 
-		            	{	
-							me.onChangeHandler(arg); 
-		            	}
-					});
-	            }
-            };
-            
-            
-            var IMap = function () 
+		var ContextDataChecker = 
+		{
+			oldData: undefined,
+			curData: undefined,
+			isChanged: false,
+            onChangeHandler: {},
+            setOnChangeHandler: function(handler) 
             {
-                var me = this;
-
-                me.updata = function () 
-                {
-                    var pins = $(".pin");
-                    me.clearDirty();
-                    pins.each(function () 
-                    {
-                        var pin = $(this);
-                        var tooltipDirection = pin.hasClass('pin-down') ? 'tooltip-down' : 'tooltip-up';
-                        var tooltip = $('<div class="tooltip">' + pin.html() + '</div>');
-                        var dirty = $("<div style='left:" + pin.data('xpos') + "px;top:" + pin.data('ypos') + "px' class='" + tooltipDirection + "'></div>");
-                        dirty.append(tooltip);
-                        me.wrapper.append(dirty);
-                    });
-
-                    $('.tooltip-up, .tooltip-down').mouseenter(function () 
-                    {
-                        $(this).children('.tooltip').fadeIn(100);
-                    }).mouseleave(function () {
-                        $(this).children('.tooltip').fadeOut(100);
-                    })
-                };
-                
-                me.clearDirty = function () 
-                {
-                    me.wrapper.find('.tooltip-down').remove();
-                    me.wrapper.find('.tooltip-up').remove();                    
-                }
-
-                me.wrappedImg = $('#wrapper img');
-                if (me.wrappedImg) 
-                {
-                    me.wrapper = $('#wrapper').css(
-                    {
-                        'width': me.wrappedImg.width(),
-                        'height': me.wrappedImg.height()
-                    });                    
-                    me.updata();
-                }
-            };
-			modifyUIData();
-            var map = new IMap();
-            
-            ContextDataChecker.setOnChangeHandler(function(arg) 
-            {				    			
-    			var m110n = arg.Data.m110n;							    			
-    			var m140a = arg.Data.m140a;
-    			var m140b = arg.Data.m140b;
-    			var m160a = arg.Data.m160a;    			
-    			var m170a = arg.Data.m170a;
-    			var m170b = arg.Data.m170b;
-    			var m190a = arg.Data.m190a;
-
-    			var screena = arg.Data.screena;
-    			var fana = arg.Data.fana;
-    			var lighta = arg.Data.lighta;
-    			var lightb = arg.Data.lightb;    			    			    			    				
-    			    			
-    			$('#110nAddress').text(m110n.address);       
-                $('#110nType').text(m110n.type);  
-                $('#110nData').text(m110n.data);                      
-
-                $('#140aAddress').text(m140a.address);       
-                $('#140aType').text(m140a.type);  
-                $('#140aData').text(m140a.data); 
-                                
-                $('#140bAddress').text(m140b.address);       
-                $('#140bType').text(m140b.type);  
-                $('#140bData').text(m140b.data);    
-                
-                $('#160aAddress').text(m160a.address);       
-                $('#160aType').text(m160a.type);  
-                $('#160aData').text(m160a.data);     
-                
-                $('#170aAddress').text(m170a.address);       
-                $('#170aType').text(m170a.type);  
-                $('#170aData').text(m170a.data); 
-                
-                $('#170bAddress').text(m170b.address);       
-                $('#170bType').text(m170b.type);  
-                $('#170bData').text(m170b.data); 
-                
-                $('#190aAddress').text(m190a.address);       
-                $('#190aType').text(m190a.type);  
-                $('#190aData').text(m190a.data);                                                                                    
-
-                $('#screenaAddress').text(screena.address);       
-                $('#screenaType').text(screena.type);  
-                $('#screenaData').text(screena.data);                                                                                    
-                
-                $('#fanaAddress').text(fana.address);       
-                $('#fanaType').text(fana.type);  
-                $('#fanaData').text(fana.data);                                                                                    
-                
-                $('#lightaAddress').text(lighta.address);       
-                $('#lightaType').text(lighta.type);  
-                $('#lightaData').text(lighta.data);                                                                                    
-                
-                $('#lightbAddress').text(lightb.address);       
-                $('#lightbType').text(lightb.type);  
-                $('#lightbData').text(lightb.data);                                                                                    
-
-				$('#bgsrc').attr('src', arg.BGURL);
-				
-                map.updata(); 
-            });    
-            
-            var extractor = new DataExtractor();           
-            setInterval(modifyUIData, 3000, extractor);
-
-            function modifyUIData(extractor) 
+	            if(handler) this.onChangeHandler = handler;
+            },
+            check: function(extractor) 
             {
-            	if(extractor) ContextDataChecker.check(extractor);
-          		// Initial
-            	if(!extractor)
+            	var me = this;
+            	extractor.getBundle(function (devices) 
             	{
-                    var appBtn1 = $('#appButton1');
-	                var appBtn2 = $('#appButton2');
-                    var appBtn3 = $('#appButton3');
-	                var appBtn4 = $('#appButton4');
-                    var appBtn5 = $('#appButton5');
-	                var appBtn6 = $('#appButton6');
-                    var appBtn7 = $('#appButton7');
-	                var appBtn8 = $('#appButton8');
-	                	        
-					appBtn1.hide();
-					appBtn2.hide();
-					appBtn3.hide();
-					appBtn4.hide();
-					appBtn5.hide();
-					appBtn6.hide();
-					appBtn7.hide();
-					appBtn8.hide();																					                	                                       
-	            	return;           	
-            	}
-
-            	/* Normal case
-                extractor.getBundle(function (devices) 
-                {
                     var zstackDevice = devices['zstack'];
                     var aspireDevice = devices['aspire'];
                     var smartphoneDevice = devices['smartphone'];
                     var smartsocketDevice = devices['smartsocket'];     
                     
-					var m140a = zstackDevice['140_A'];
-					var m140b = zstackDevice['140_B'];
-										
-                    $('#140aAddress').text(m140a.address);       
-                    $('#140aType').text(m140a.type);  
-                    $('#140aData').text(m140a.data);                      
-                    
-                    $('#140bAddress').text(m140b.address);       
-                    $('#140bType').text(m140b.type);  
-                    $('#140bData').text(m140b.data);                      
+                    // Z-Stack Device
+					var m110n = zstackDevice['M110_N'];													                    
+					var m140a = zstackDevice['M140_A'];
+					var m140b = zstackDevice['M140_B'];
+					var m160a = zstackDevice['M160_A'];												
+					var m170a = zstackDevice['M170_A'];
+					var m170b = zstackDevice['M170_B'];												
+					var m190a = zstackDevice['M190_A'];							
+					
+					// Smart Socket Device
+					var screena = smartsocketDevice['Screen_A'];
+					var lighta = smartsocketDevice['Light_A'];						
+					var fanb = smartsocketDevice['Fan_B'];						
+					var lampb = smartsocketDevice['Lamp_B'];						
+					
+					// Smart Phone Device
+					var voices = smartphoneDevice['voice_S'];								
 
-                    map.updata();
-                });*/
+					me.curData = 
+					{
+	                    // Z-Stack Device
+						m110n: zstackDevice['M110_N'],
+						m140a: zstackDevice['M140_A'],
+						m140b: zstackDevice['M140_B'],														
+						m160a: zstackDevice['M160_A'],							
+						m170a: zstackDevice['M170_A'],							
+						m170b: zstackDevice['M170_B'],														
+						m190a: zstackDevice['M190_A'],	
+
+						// Smart Socket Device
+						screena: smartsocketDevice['Screen_A'],	
+						lighta: smartsocketDevice['Light_A'],								
+						fanb: smartsocketDevice['Fan_B'],			
+						lampb: smartsocketDevice['Lamp_B'],
+						
+						// Smart Phone Device						
+						voices: smartphoneDevice['voice_S']							
+					};
+					
+					var arg = {};
+					if(!me.oldData) 
+					{
+						me.isChanged = true;
+					}
+					else 
+					{       	
+		            	// compare the type of bg
+						if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)
+							|| (me.oldData.m110n.data != me.curData.m110n.data) || (me.oldData.m140a.data != me.curData.m140a.data)
+							|| (me.oldData.lighta.data != me.curData.lighta.data) || (me.oldData.screena.data != me.curData.screena.data)
+							|| (me.oldData.lampb.data != me.curData.lampb.data)	|| (me.oldData.fanb.data != me.curData.fanb.data)
+							|| (me.oldData.voices.data != me.curData.voices.data)) 
+						{
+							me.isChanged = true;
+							
+		                    var aRoomLightLevel;
+							var bRoomLightLevel;
+										                    
+							// Determine the level of the light
+							if(me.curData.m170a.data < 25)
+							{
+								// Low
+								aRoomLightLevel = 0;																		
+							}
+							else if(me.curData.m170a.data < 75)
+							{
+								// Normal
+								aRoomLightLevel = 1;
+							}
+							else if(me.curData.m170a.data <= 100)
+							{
+								// High
+								aRoomLightLevel = 2;
+							}
+
+							if(me.curData.m170b.data < 25)
+							{
+								// Low
+								bRoomLightLevel = 0;																		
+							}
+							else if(me.curData.m170b.data < 75)
+							{
+								// Normal
+								bRoomLightLevel = 1;
+							}
+							else if(me.curData.m170b.data <= 100)
+							{
+								// High
+								bRoomLightLevel = 2;
+							}								
+							
+							arg.BGURL = 'images/bg' + bRoomLightLevel + "" + aRoomLightLevel + ".png";
+							
+							lightaAddress = me.curData.lighta.address;
+							lightaType = me.curData.lighta.type;								
+							lightaData = me.curData.lighta.data;
+
+							screenaAddress = me.curData.screena.address;
+							screenaType = me.curData.screena.type;								
+							screenaData = me.curData.screena.data;		
+														
+							fanbAddress = me.curData.fanb.address;
+							fanbType = me.curData.fanb.type;								
+							fanbData = me.curData.fanb.data;
+
+							lampbAddress = me.curData.lampb.address;
+							lampbType = me.curData.lampb.type;								
+							lampbData = me.curData.lampb.data;				
+
+							voicesAddress = me.curData.voices.address;
+							voicesType = me.curData.voices.type;								
+							voicesData = me.curData.voices.data;				
+						}
+						else 
+						{
+							me.isChanged = false;
+						}
+					}
+					
+					me.oldData = me.curData;
+					arg.Data = me.curData;
+	            	if(me.isChanged && me.onChangeHandler) 
+	            	{	
+						me.onChangeHandler(arg); 
+	            	}
+				});
+            }
+        };
+        
+        
+        var IMap = function () 
+        {
+            var me = this;
+
+            me.updata = function () 
+            {
+                var pins = $(".pin");
+                me.clearDirty();
+                pins.each(function () 
+                {
+                    var pin = $(this);
+                    var tooltipDirection = pin.hasClass('pin-down') ? 'tooltip-down' : 'tooltip-up';
+                    var tooltip = $('<div class="tooltip">' + pin.html() + '</div>');
+                    var dirty = $("<div style='left:" + pin.data('xpos') + "px;top:" + pin.data('ypos') + "px' class='" + tooltipDirection + "'></div>");
+                    dirty.append(tooltip);
+                    me.wrapper.append(dirty);
+                });
+
+                $('.tooltip-up, .tooltip-down').mouseenter(function () 
+                {
+                    $(this).children('.tooltip').fadeIn(100);
+                }).mouseleave(function () {
+                    $(this).children('.tooltip').fadeOut(100);
+                })
+            };
+            
+            me.clearDirty = function () 
+            {
+                me.wrapper.find('.tooltip-down').remove();
+                me.wrapper.find('.tooltip-up').remove();                    
             }
 
-        });
-    </script>
-  </head>
+            me.wrappedImg = $('#wrapper img');
+            if (me.wrappedImg) 
+            {
+                me.wrapper = $('#wrapper').css(
+                {
+                    'width': me.wrappedImg.width(),
+                    'height': me.wrappedImg.height()
+                });                    
+                me.updata();
+            }
+        };
+		modifyUIData();
+        var map = new IMap();
+        
+        ContextDataChecker.setOnChangeHandler(function(arg) 
+        {				    			
+			var m110n = arg.Data.m110n;							    			
+			var m140a = arg.Data.m140a;
+			var m140b = arg.Data.m140b;
+			var m160a = arg.Data.m160a;    			
+			var m170a = arg.Data.m170a;
+			var m170b = arg.Data.m170b;
+			var m190a = arg.Data.m190a;
+
+			var screena = arg.Data.screena;
+			var fanb = arg.Data.fanb;
+			var lighta = arg.Data.lighta;
+			var lampb = arg.Data.lampb;   
+			
+			var voices = arg.Data.voices;
+			
+			var screenaarray = screena.data.split(';'); 
+			var fanbarray = fanb.data.split(';'); 
+			var lightaarray = lighta.data.split(';'); 
+			var lampbarray = lampb.data.split(';');  
+			var voicesarray = voices.data.split('; ');	   			    			    					
+
+			$('#voicesAddress').text(voices.address);       
+            $('#voicesType').text(voices.type);                  
+            $('#voicesData').text(voices.data); 
+            $('#voicesDataA').text(voicesarray[0]); 
+            $('#voicesDataB').text(voicesarray[1]);                         
+			    			
+			$('#110nAddress').text(m110n.address);       
+            $('#110nType').text(m110n.type);  
+            $('#110nData').text(m110n.data);                      
+
+            $('#140aAddress').text(m140a.address);       
+            $('#140aType').text(m140a.type);  
+            $('#140aData').text(m140a.data); 
+                            
+            $('#140bAddress').text(m140b.address);       
+            $('#140bType').text(m140b.type);  
+            $('#140bData').text(m140b.data);    
+            
+            $('#160aAddress').text(m160a.address);       
+            $('#160aType').text(m160a.type);  
+            $('#160aData').text(m160a.data);     
+            
+            $('#170aAddress').text(m170a.address);       
+            $('#170aType').text(m170a.type);  
+            $('#170aData').text(m170a.data); 
+            
+            $('#170bAddress').text(m170b.address);       
+            $('#170bType').text(m170b.type);  
+            $('#170bData').text(m170b.data); 
+            
+            $('#190aAddress').text(m190a.address);       
+            $('#190aType').text(m190a.type);  
+            $('#190aData').text(m190a.data);                                                                                    
+
+            $('#screenaAddress').text(screena.address);       
+            $('#screenaType').text(screena.type);  
+            $('#screenaData').text(screena.data);              
+            $('#screenaDataA').text(screenaarray[0]);                                                                                   
+            $('#screenaDataB').text(screenaarray[1]);                                                                                                
+
+            $('#lightaAddress').text(lighta.address);       
+            $('#lightaType').text(lighta.type);  
+            $('#lightaData').text(lighta.data);  
+            $('#lightaDataA').text(lightaarray[0]);                                                                                   
+            $('#lightaDataB').text(lightaarray[1]);               
+            
+            $('#fanbAddress').text(fanb.address);       
+            $('#fanbType').text(fanb.type);  
+            $('#fanbData').text(fanb.data);             
+            $('#fanbDataA').text(fanbarray[0]);                                                                                   
+            $('#fanbDataB').text(fanbarray[1]);                                                                                                                   
+            
+            $('#lampbAddress').text(lampb.address);       
+            $('#lampbType').text(lampb.type);  
+            $('#lampbData').text(lampb.data);  
+            $('#lampbDataA').text(lampbarray[0]);                                                                                   
+            $('#lampbDataB').text(lampbarray[1]);                                                                                                 
+
+			$('#bgsrc').attr('src', arg.BGURL);
+			
+            map.updata(); 
+        });    
+        
+        var extractor = new DataExtractor();           
+        setInterval(modifyUIData, 3000, extractor);
+
+        function modifyUIData(extractor) 
+        {
+        	if(extractor) ContextDataChecker.check(extractor);
+      		// Initial
+        	if(!extractor)
+        	{
+                var appBtn1 = $('#appButton1');
+                var appBtn2 = $('#appButton2');
+                var appBtn3 = $('#appButton3');
+                var appBtn4 = $('#appButton4');
+                var appBtn5 = $('#appButton5');
+                var appBtn6 = $('#appButton6');
+                var appBtn7 = $('#appButton7');
+                var appBtn8 = $('#appButton8');
+                	        
+				appBtn1.hide();
+				appBtn2.hide();
+				appBtn3.hide();
+				appBtn4.hide();
+				appBtn5.hide();
+				appBtn6.hide();
+				appBtn7.hide();
+				appBtn8.hide();																					                	                                       
+            	return;           	
+        	}
+
+        	/* Normal case
+            extractor.getBundle(function (devices) 
+            {
+                var zstackDevice = devices['zstack'];
+                var aspireDevice = devices['aspire'];
+                var smartphoneDevice = devices['smartphone'];
+                var smartsocketDevice = devices['smartsocket'];     
+                
+				var m140a = zstackDevice['140_A'];
+				var m140b = zstackDevice['140_B'];
+									
+                $('#140aAddress').text(m140a.address);       
+                $('#140aType').text(m140a.type);  
+                $('#140aData').text(m140a.data);                      
+                
+                $('#140bAddress').text(m140b.address);       
+                $('#140bType').text(m140b.type);  
+                $('#140bData').text(m140b.data);                      
+
+                map.updata();
+            });*/
+        }
+
+    });
+</script>
+</head>
 <body>
 <div id="wrapper">    
     <div id="ticker4" data-xpos="170" data-ypos="210">
@@ -483,36 +561,51 @@ z-index:900
         <label><b>Current:</b> </label><span id="140bDatb"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
-	<img width="700" height="446" src="images/bg.png" id="bgsrc" alt="House"> 
-	<img width="50" height="50" src="images/voice_on.png" id="voice">
-	<img width="50" height="50" src="images/gesture_on.png" id="gesture">
-	<img width="50" height="50" src="images/context_on.png" id="context">	
+	<img width="700" height="446" src="images/bg.png" id="bgsrc"> 
+	<img width="50" height="50" src="images/voice_off.png" id="voicesData">
+	<img width="50" height="50" src="images/gesture_off.png" id="gesture">
+	<img width="50" height="50" src="images/context_off.png" id="context">	
     <div class="pin pin-down" data-xpos="60" data-ypos="145">
-        <label><b>Left Light: </b></label><br>
-        <label><b>Address:</b> </label><span id="lightbAddress"></span><br>        
-        <label><b>Type: </b></label><span id="lightbType"></span><br>
-        <label><b>Data:</b></label><span id="lightbData"></span><br>
+        <label><b>Lamp B:</b> </label><br>        
+        <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
+        <label><b>Type: </b></label><span id="lampbType"></span><br>
+        <label><b>Data:</b></label><span id="lampbData"></span><br>
+        <label><b>DataA:</b></label><span id="lampbDataA"></span><br>
+        <label><b>DataB:</b></label><span id="lampbDataB"></span><br>                
     </div>
     <div class="pin pin-down" data-xpos="580" data-ypos="180">    
-        <label><b>Left Screen:</b> </label><br>
+        <label><b>Screen A: </b></label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
         <label><b>Type:</b> </label><span id="screenaType"></span><br>
         <label><b>Data:</b> </label><span id="screenaData"></span><br>
+        <label><b>DataA:</b> </label><span id="screenaDataA"></span><br>
+        <label><b>DataB:</b> </label><span id="screenaDataB"></span><br>                
     </div>         
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
-        <label><b>Right Light:</b> </label><br>    
+        <label><b>Light A:</b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
         <label><b>Type:</b> </label><span id="lightaType"></span><br>
         <label><b>Data:</b> </label><span id="lightaData"></span><br>
+        <label><b>DataA:</b> </label><span id="lightaDataA"></span><br>
+        <label><b>DataB:</b> </label><span id="lightaDataB"></span><br>                
     </div>   
     <div class="pin pin-down" data-xpos="200" data-ypos="210">
-        <label><b>Right Fan:</b> </label><br>    
-        <label><b>Address:</b> </label><span id="fanaaddress"></span><br>
-        <label><b>Type:</b> </label><span id="fanaType"></span><br>
-        <label><b>Data:</b> </label><span id="fanaData"></span><br>
+        <label><b>Fan B:</b> </label><br>    
+        <label><b>Address:</b> </label><span id="fanbAddress"></span><br>
+        <label><b>Type:</b> </label><span id="fanbType"></span><br>
+        <label><b>Data:</b> </label><span id="fanbData"></span><br>
+        <label><b>DataA:</b> </label><span id="fanbDataA"></span><br>
+        <label><b>DataB:</b> </label><span id="fanbDataB"></span><br>                
+    </div>      
+    <div class="pin pin-down" data-xpos="350" data-ypos="210">
+        <label><b>voices:</b> </label><br>    
+        <label><b>Address:</b> </label><span id="voicesAddress"></span><br>
+        <label><b>Type:</b> </label><span id="voicesType"></span><br>
+        <label><b>Data:</b> </label><span id="voicesData"></span><br>
+        <label><b>DataA:</b> </label><span id="voicesDataA"></span><br>
+        <label><b>DataB:</b> </label><span id="voicesDataB"></span><br>                
     </div>                        
 </div>
 <div align="center" id="div_test"></div>       
-
 </body>
 </html>
