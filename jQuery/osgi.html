@@ -37,16 +37,16 @@ top:52px;
 z-index:0
 }
 
-#ticker4
+#aroom
 {
 position:absolute;
 left:550px;
-top:360px;
+top:365px;
 filter: Alpha(Opacity=10);
 z-index:900
 }
 
-#ticker3
+#broom
 {
 position:absolute;
 left:40px;
@@ -60,86 +60,11 @@ z-index:900
 <script type='text/javascript' src='scripts/jquery.fancygallery.min.js'></script>
 <script type="text/javascript" src='scripts/jquery.zrssfeed.min.js'></script>
 <script type="text/javascript" src='scripts/jquery.vticker.js'></script>
-
-<script language="JavaScript">
-//<!--
-	function FP_preloadImgs() {//v1.0
-	 var d=document,a=arguments; if(!d.FP_imgs) d.FP_imgs=new Array();
-	 for(var i=0; i<a.length; i++) { d.FP_imgs[i]=new Image; d.FP_imgs[i].src=a[i]; }
-	}
-	
-	function FP_swapImg() {//v1.0
-	 var doc=document,args=arguments,elm,n; doc.$imgSwaps=new Array(); for(n=2; n<args.length;
-	 n+=2) { elm=FP_getObjectByID(args[n]); if(elm) { doc.$imgSwaps[doc.$imgSwaps.length]=elm;
-	 elm.$src=elm.src; elm.src=args[n+1]; } }
-	}
-	
-	function FP_getObjectByID(id,o) 
-	{//v1.0
-	 	var c,el,els,f,m,n; 
-	 	if(!o)
-	 		o=document; 
-	 	if(o.getElementById) 
-	 		el=o.getElementById(id);
-	 	else if(o.layers) 
-	 		c=o.layers; 
-	 	else if(o.all) 
-	 		el=o.all[id]; 
-	 	if(el) return el;
-	 
-	 	if(o.id==id || o.name==id) return o; 
-	 	if(o.childNodes) c=o.childNodes; 
-	 	if(c)
-	 		for(n=0; n<c.length; n++) 
-	 		{ 
-	 			el=FP_getObjectByID(id,c[n]); 
-	 			if(el) 
-	 				return el; 
-	 		}
-	 f=o.forms; 
-	 if(f) 
-	 	for(n=0; n<f.length; n++) 
-	 	{ 
-	 		els=f[n].elements;
-	 for(m=0; m<els.length; m++)
-	 { 
-	 	el=FP_getObjectByID(id,els[n]); 
-	 	if(el) 
-	 	return el; 
-	 } 
-	 }
-	 return null;
-	}
-// -->
-	function smart_home_req(val,obj_name)
-	{
-		var msg = new Array();
-		msg[0]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay1_ON";
-		msg[1]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay1_OFF";
-		msg[2]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay2_ON";
-		msg[3]="MMN_SmartSocketBundle.Service_SmartSocket_Interface Set_Relay2_OFF";
-		$.get("socket_client.php?msg="+msg[val], function(data){check_error(data,val,obj_name)});
-	}
-	
-	function check_error(data,val,obj_name)
-	{
-		//var obj_id='div_test';
-		if(data=="Fail\n")
-		{
-			setTimeout(function(){smart_home_req(val,obj)},1000);
-		}
-		else
-		{
-			var obj = document.getElementById(obj_name);
-			obj.innerHTML = data;//Return Message
-		}
-	}
-</script>
 <script type="text/javascript">
 $(document).ready(function () 
-    {
-        var DataExtractor = function () 
-        {
+{
+	var DataExtractor = function () 
+	{
             var me = this;
             me.getBundle = function (handler) 
             {
@@ -176,39 +101,6 @@ $(document).ready(function ()
                     },
                     cache: false
             	});
-            	
-            	/*
-                $.get('../xml_sample/alldata.xml', function (data) 
-                {
-                    if (handler && data) 
-                    {
-                        var devices = {};
-                        var root = $(data).find('Root');
-						                                                    
-                        root.children().each(function()
-                        {
-                            var device = $(this);
-                            var did = device.attr('type').toLowerCase();
-                            var modules = {};
-                                                           
-                            device.children().each(function () 
-                            {
-                            	var module = {};
-                            	$(this).children().each(function(){
-                            		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
-                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
-                            	});
-                            	
-                            	modules[module.type + '_' + module.room] = module;
-                                //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
-                            });
-                       
-                            devices[did] = modules;
-                            
-                        });
-                        handler(devices);
-                    }
-                });*/
             };
         };
 
@@ -243,10 +135,65 @@ $(document).ready(function ()
 					var m190a = zstackDevice['M190_A'];							
 					
 					// Smart Socket Device
-					var screena = smartsocketDevice['Screen_A'];
-					var lighta = smartsocketDevice['Light_A'];						
-					var fanb = smartsocketDevice['Fan_B'];						
-					var lampb = smartsocketDevice['Lamp_B'];						
+					var nonea = smartsocketDevice['None_A'];
+					var noneb = smartsocketDevice['None_B'];					
+					var screen_a = smartsocketDevice['Screen_A'];
+					var light_a = smartsocketDevice['Light_A'];						
+					var fan_b = smartsocketDevice['Fan_B'];						
+					var lamp_b = smartsocketDevice['Lamp_B'];						
+					
+					var screenstatus;
+					var lightstatus;
+					var fanstatus;
+					var lampstatus;
+					
+					if(screen_a == null)
+					{
+						screenstatus = "N/A";
+						var screen_a = new Object; 						
+						screen_a.data = "N/A;N/A";
+						screen_a.address = "N/A";						
+					}
+					else
+					{
+						screenstatus = "on";						
+					}
+					
+					if(light_a == null)
+					{
+						lightstatus = "N/A";
+						var light_a = new Object;
+						light_a.data = "N/A;N/A";
+						light_a.address = "N/A"
+					}
+					else
+					{
+						lightstatus = "on";
+					}
+					
+					if(fan_b == null)
+					{
+						fanstatus = "N/A";
+						var fan_b = new Object;
+						fan_b.data = "N/A;N/A";
+						fan_b.address = "N/A"
+					}
+					else
+					{
+						fanstatus = "on";
+					}
+					
+					if(lamp_b == null)
+					{
+						lampstatus = "N/A";
+						var lamp_b = new Object;
+						lamp_b.data = "N/A;N/A";
+						lamp_b.address = "N/A";
+					}
+					else
+					{
+						lampstatus = "on";
+					}
 					
 					// Smart Phone Device
 					var voices = smartphoneDevice['voice_S'];	
@@ -269,10 +216,10 @@ $(document).ready(function ()
 						m190a: zstackDevice['M190_A'],	
 
 						// Smart Socket Device
-						screena: smartsocketDevice['Screen_A'],	
-						lighta: smartsocketDevice['Light_A'],								
-						fanb: smartsocketDevice['Fan_B'],			
-						lampb: smartsocketDevice['Lamp_B'],
+						screena: screen_a,	
+						lighta: light_a,								
+						fanb: fan_b,			
+						lampb: lamp_b,
 						
 						// Smart Phone Device						
 						voices: smartphoneDevice['voice_S'],
@@ -281,7 +228,7 @@ $(document).ready(function ()
 						gestures: aspireDevice['gesture_S'],
 						
 						// Gateway Device
-						contextaways: gatewayDevice['contextaware_S']																	
+						contextaways: gatewayDevice['contextaware_S']
 					};
 					
 					var arg = {};
@@ -290,7 +237,7 @@ $(document).ready(function ()
 						me.isChanged = true;
 					}
 					else 
-					{       	
+					{      		 	
 		            	// compare the type of bg
 						if ((me.oldData.m170a.data != me.curData.m170a.data) || (me.oldData.m170b.data != me.curData.m170b.data)
 							|| (me.oldData.m110n.data != me.curData.m110n.data) || (me.oldData.m140a.data != me.curData.m140a.data)
@@ -306,19 +253,11 @@ $(document).ready(function ()
 							var bRoomLightLevel;
 							var voiceState;
 							var gestureState;
-							var contextState;		
-
-							var screenBtn1 = $('#screenButton1');
-							var screenBtn2 = $('#screenButton2');
-                
-							var lampBtn1 = $('#lampButton1');
-							var lampBtn2 = $('#lampButton2');
-                
-							var lightBtn1 = $('#lightButton1');
-							var lightBtn2 = $('#lightButton2');
-
-							var fanBtn1 = $('#fanButton1');
-							var fanBtn2 = $('#fanButton2');												
+							var contextState;
+							var screenstatus;
+							var lightstatus;
+							var fanstatus;
+							var lampstatus;												
 										                    
 							// Determine the level of the light
 							if(me.curData.m170a.data < 25)
@@ -388,76 +327,27 @@ $(document).ready(function ()
 							{
 								contextState = "off";								
 							}							
-							arg.CONTEXTURL = 'images/context' + "_" + contextState + ".png";														
+							arg.CONTEXTURL = 'images/context' + "_" + contextState + ".png";																					
 							
-							
-							// Light button
-							var lightaarray = me.curData.lighta.data.split(';');	
-							if(lightaarray[0] == "On")
-							{	                	        
-								lightBtn1.show();
-								lightBtn2.show();		
-							}
-							else
-							{
-								lightBtn1.hide();
-								lightBtn2.hide();							
-							}							
-		
-							// Screen button
-							var screenaarray = me.curData.screena.data.split(';');	
-							if(screenaarray[0] == "On")
-							{	                	        
-								screenBtn1.show();
-								screenBtn2.show();
-							}
-							else
-							{
-								screenBtn1.hide();
-								screenBtn2.hide();						
-							}	
-				
-							// Lamp button
-							var lampbarray = me.curData.lampb.data.split(';');	
-							if(lampbarray[0] == "On")
-							{	                	        
-								lampBtn1.show();
-								lampBtn2.show();			
-							}
-							else
-							{
-								lampBtn1.hide();
-								lampBtn2.hide();
-							}	
-
-							// Fan button
-							var fanbarray = me.curData.fanb.data.split(';');	
-							if(fanbarray[0] == "On")
-							{	                	        
-								fanBtn1.show();
-								fanBtn2.show();			
-							}
-							else
-							{
-								fanBtn1.hide();
-								fanBtn2.hide();
-							}								
-							
+							var lightaarray = me.curData.lighta.data.split(';'); 
 							lightaAddress = me.curData.lighta.address;
 							lightaType = me.curData.lighta.type;								
-							lightaData = me.curData.lighta.data;
+							lightstatus = lightaarray[0];
 
+							var screenaarray = me.curData.screena.data.split(';'); 
 							screenaAddress = me.curData.screena.address;
 							screenaType = me.curData.screena.type;								
-							screenaData = me.curData.screena.data;		
+							screenstatus = screenaarray[1];		
 														
+							var fanbarray = me.curData.fanb.data.split(';'); 														
 							fanbAddress = me.curData.fanb.address;
 							fanbType = me.curData.fanb.type;								
-							fanbData = me.curData.fanb.data;
+							fanstatus = fanbarray[1];
 
+							var lampbarray = me.curData.lampb.data.split(';'); 
 							lampbAddress = me.curData.lampb.address;
 							lampbType = me.curData.lampb.type;								
-							lampbData = me.curData.lampb.data;				
+							lampstatus = lampbarray[1];				
 
 							voicesAddress = me.curData.voices.address;
 							voicesType = me.curData.voices.type;								
@@ -546,10 +436,64 @@ $(document).ready(function ()
 			var aroomcurrent;
 			var broomcurrent;			
 			
+			var screenstatus;
+			var lightstatus;
+			var fanstatus;
+			var lampstatus;
+			
+			if(screena == null)
+			{
+				screenstatus = "N/A";
+				var screena = new Object; 						
+				screena.data = "N/A;N/A";
+			}
+			else
+			{
+				screenstatus = "on";						
+			}
+			
+			if(lighta == null)
+			{
+				lightstatus = "N/A";
+				var lighta = new Object;
+				lighta.data = "N/A;N/A";
+			}
+			else
+			{
+				lightstatus = "on";
+			}
+			
+			if(fanb == null)
+			{
+				fanstatus = "N/A";
+				var fanb = new Object;
+				fanb.data = "N/A;N/A";
+			}
+			else
+			{
+				fanstatus = "on";
+			}
+			
+			if(lampb == null)
+			{
+				lampstatus = "N/A";
+				var lampb = new Object;
+				lampb.data = "N/A;N/A";
+			}
+			else
+			{
+				lampstatus = "on";
+			}	
+			
 			var screenaarray = screena.data.split(';'); 
 			var fanbarray = fanb.data.split(';'); 
 			var lightaarray = lighta.data.split(';'); 
-			var lampbarray = lampb.data.split(';');  			    			    					
+			var lampbarray = lampb.data.split(';');  	
+			
+			var screenstatus = screenaarray[0];
+			var lightstatus = lightaarray[0];
+			var fanstatus = fanbarray[0];
+			var lampstatus = lampbarray[0];		    			    					
 
 			// Determine current of a room
 			if(lightaarray[1] == null)
@@ -620,25 +564,25 @@ $(document).ready(function ()
             $('#screenaAddress').text(screena.address);       
             $('#screenaType').text(screena.type);  
             $('#screenaData').text(screena.data);              
-            $('#screenaDataA').text(screenaarray[0]);                                                                                   
+            $('#screenaDataA').text(screenstatus);                                                                                   
             $('#screenaDataB').text(screenaarray[1]);                                                                                                
 
             $('#lightaAddress').text(lighta.address);       
             $('#lightaType').text(lighta.type);  
             $('#lightaData').text(lighta.data);  
-            $('#lightaDataA').text(lightaarray[0]);                                                                                   
+            $('#lightaDataA').text(lightstatus);                                                                                   
             $('#lightaDataB').text(lightaarray[1]);               
             
             $('#fanbAddress').text(fanb.address);       
             $('#fanbType').text(fanb.type);  
             $('#fanbData').text(fanb.data);             
-            $('#fanbDataA').text(fanbarray[0]);                                                                                   
+            $('#fanbDataA').text(fanstatus);                                                                                   
             $('#fanbDataB').text(fanbarray[1]);                                                                                                                   
             
             $('#lampbAddress').text(lampb.address);       
             $('#lampbType').text(lampb.type);  
             $('#lampbData').text(lampb.data);  
-            $('#lampbDataA').text(lampbarray[0]);                                                                                   
+            $('#lampbDataA').text(lampstatus);                                                                                   
             $('#lampbDataB').text(lampbarray[1]);                                                                                                 
 
 			$('#bgsrc').attr('src', arg.BGURL);
@@ -657,69 +601,18 @@ $(document).ready(function ()
         function modifyUIData(extractor) 
         {
         	if(extractor) ContextDataChecker.check(extractor);
-      		// Initial
-        	if(!extractor)
-        	{
-                var screenBtn1 = $('#screenButton1');
-                var screenBtn2 = $('#screenButton2');
-                
-                var lampBtn1 = $('#lampButton1');
-                var lampBtn2 = $('#lampButton2');
-                
-                var lightBtn1 = $('#lightButton1');
-                var lightBtn2 = $('#lightButton2');
-
-                var fanBtn1 = $('#fanButton1');
-                var fanBtn2 = $('#fanButton2');             
-				
-				screenBtn1.hide();
-				screenBtn2.hide();
-				
-				lampBtn1.hide();
-				lampBtn2.hide();
-								                	        
-				lightBtn1.hide();
-				lightBtn2.hide();
-				
-				fanBtn1.hide();
-				fanBtn2.hide();
-				return;           	
-        	}
-
-        	/* Normal case
-            extractor.getBundle(function (devices) 
-            {
-                var zstackDevice = devices['zstack'];
-                var aspireDevice = devices['aspire'];
-                var smartphoneDevice = devices['smartphone'];
-                var smartsocketDevice = devices['smartsocket'];     
-                
-				var m140a = zstackDevice['140_A'];
-				var m140b = zstackDevice['140_B'];
-									
-                $('#140aAddress').text(m140a.address);       
-                $('#140aType').text(m140a.type);  
-                $('#140aData').text(m140a.data);                      
-                
-                $('#140bAddress').text(m140b.address);       
-                $('#140bType').text(m140b.type);  
-                $('#140bData').text(m140b.data);                      
-
-                map.updata();
-            });*/
         }
-
     });
 </script>
 </head>
 <body>
 <div id="wrapper">    
-    <div id="ticker4" data-xpos="170" data-ypos="210">
+    <div id="aroom" data-xpos="170" data-ypos="210">
         <label><b>Temp:</b> </label><span id="140aData"></span><br>        
         <label><b>Current:</b> </label><span id="broomcurrent"></span><br>
         <label><b>Luminosity:</b> </label><span id="170aData"></span><br>                
     </div>  
-    <div id="ticker3">
+    <div id="broom">
         <label><b>Temp:</b> </label><span id="140bData"></span><br>        
         <label><b>Current:</b> </label><span id="aroomcurrent"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
@@ -728,52 +621,34 @@ $(document).ready(function ()
 	<img width="50" height="50" src="images/voice_off.png" id="voicessrc">
 	<img width="50" height="50" src="images/gesture_off.png" id="gesturesrc">
 	<img width="50" height="50" src="images/context_off.png" id="contextsrc">	
-    <div class="pin pin-down" data-xpos="60" data-ypos="145">
-        <label><b>Lamp:</b> </label><br>        
+    <div class="pin pin-down" data-xpos="65" data-ypos="130">
+        <label><b><font size="5">Lamp</font></b> </label><br>        
         <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
-        <label><b>Type: </b></label><span id="lampbType"></span><br>
-        <label><b>Data:</b></label><span id="lampbData"></span><br>  
-        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <label><b>Status:</b></label><span id="lampbDataA"></span><br>  
         <button id="lampButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="lampButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
-        <br><img src="images/pc1.jpeg" width="210"><br>                      
+        <button id="lampButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>                  
     </div>
     <div class="pin pin-down" data-xpos="580" data-ypos="180">    
-        <label><b>Screen: </b></label><br>
+        <label><b><font size="5">Screen</font></b></label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
-        <label><b>Type:</b> </label><span id="screenaType"></span><br>
-        <label><b>Data:</b> </label><span id="screenaData"></span><br>
-        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <label><b>Status:</b> </label><span id="screenaDataA"></span><br>
         <button id="screenButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="screenButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
-        <br><img src="images/pc2.jpeg" width="210"><br>                       
+        <button id="screenButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>          
     </div>         
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
-        <label><b>Light:</b> </label><br>    
+        <label><b><font size="5">Light</font></b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
-        <label><b>Type:</b> </label><span id="lightaType"></span><br>
-        <label><b>Data:</b> </label><span id="lightaData"></span><br>     
-        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <label><b>Status:</b> </label><span id="lightaDataA"></span><br>     
         <button id="lightButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="lightButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
-        <br><img src="images/pc1.jpeg" width="210"><br>                  
+        <button id="lightButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>     
     </div>   
     <div class="pin pin-down" data-xpos="200" data-ypos="210">
-        <label><b>Fan:</b> </label><br>    
+        <label><b><font size="5">Fan</font></b></label><br>    
         <label><b>Address:</b> </label><span id="fanbAddress"></span><br>
-        <label><b>Type:</b> </label><span id="fanbType"></span><br>
-        <label><b>Data:</b> </label><span id="fanbData"></span><br>     
-        <label><b>Relay:</b> </label><span id="lightrelay"></span><br>
+        <label><b>Status:</b> </label><span id="fanbDataA"></span><br>     
         <button id="fanButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
         <button id="fanButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
-        <br><img src="images/pc2.jpeg" width="210"><br>                 
-    </div>      
-    <div class="pin pin-down" data-xpos="350" data-ypos="210">
-        <label><b>voices:</b> </label><br>    
-        <label><b>Address:</b> </label><span id="voicesAddress"></span><br>
-        <label><b>Type:</b> </label><span id="voicesType"></span><br>
-        <label><b>Data:</b> </label><span id="voicesData"></span><br>                   
-    </div>                        
+    </div>                            
 </div>
 <div align="center" id="div_test"></div>       
 </body>
