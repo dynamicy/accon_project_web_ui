@@ -5,7 +5,7 @@
 <link type="text/css" href="styles/osgi.style.css" rel="stylesheet">
 <link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <style type="text/css">
-#voice
+#voicessrc
 {
 position:fixed;
 left:250px;
@@ -13,7 +13,7 @@ top:430px;
 z-index:9000
 }
 
-#context
+#contextsrc
 {
 position:fixed;
 left:325px;
@@ -21,7 +21,7 @@ top:430px;
 z-index:9000
 }
 
-#gesture
+#gesturesrc
 {
 position:fixed;
 left:405px;
@@ -289,6 +289,9 @@ $(document).ready(function ()
 							
 		                    var aRoomLightLevel;
 							var bRoomLightLevel;
+							var voiceState;
+							var gestureState;
+							var contextState;							
 										                    
 							// Determine the level of the light
 							if(me.curData.m170a.data < 25)
@@ -324,6 +327,38 @@ $(document).ready(function ()
 							}								
 							
 							arg.BGURL = 'images/bg' + bRoomLightLevel + "" + aRoomLightLevel + ".png";
+							
+							if(me.curData.voices.data == "On")
+							{
+								voiceState = "on";
+							}
+							else
+							{
+								voiceState = "off";								
+							}
+							arg.VOICEURL = 'images/voice' + "_" + voiceState + ".png";
+							
+							var screenaarray = me.curData.screena.data.split(';');	
+							if(screenaarray[0] == "On")
+							{
+								gestureState = "on";
+							}
+							else
+							{
+								gestureState = "off";								
+							}
+							arg.GESTUREURL = 'images/gesture' + "_" + gestureState + ".png";							
+							
+							var lightaarray = me.curData.lighta.data.split(';');	
+							if(lightaarray[0] == "On")
+							{
+								contextState = "on";
+							}
+							else
+							{
+								contextState = "off";								
+							}							
+							arg.CONTEXTURL = 'images/context' + "_" + contextState + ".png";														
 							
 							lightaAddress = me.curData.lighta.address;
 							lightaType = me.curData.lighta.type;								
@@ -490,6 +525,9 @@ $(document).ready(function ()
             $('#lampbDataB').text(lampbarray[1]);                                                                                                 
 
 			$('#bgsrc').attr('src', arg.BGURL);
+			$('#voicessrc').attr('src', arg.VOICEURL);			
+			$('#gesturesrc').attr('src', arg.GESTUREURL);			
+			$('#contextsrc').attr('src', arg.CONTEXTURL);									
 			
             map.updata(); 
         });    
@@ -562,9 +600,9 @@ $(document).ready(function ()
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
 	<img width="700" height="446" src="images/bg.png" id="bgsrc"> 
-	<img width="50" height="50" src="images/voice_off.png" id="voicesData">
-	<img width="50" height="50" src="images/gesture_off.png" id="gesture">
-	<img width="50" height="50" src="images/context_off.png" id="context">	
+	<img width="50" height="50" src="images/voice_off.png" id="voicessrc">
+	<img width="50" height="50" src="images/gesture_off.png" id="gesturesrc">
+	<img width="50" height="50" src="images/context_off.png" id="contextsrc">	
     <div class="pin pin-down" data-xpos="60" data-ypos="145">
         <label><b>Lamp B:</b> </label><br>        
         <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
