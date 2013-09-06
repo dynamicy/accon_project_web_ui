@@ -478,10 +478,47 @@ $(document).ready(function ()
 			
 			var voices = arg.Data.voices;
 			
+			var aroomcurrent;
+			var broomcurrent;			
+			
 			var screenaarray = screena.data.split(';'); 
 			var fanbarray = fanb.data.split(';'); 
 			var lightaarray = lighta.data.split(';'); 
 			var lampbarray = lampb.data.split(';');  			    			    					
+
+			// Determine current of a room
+			if(lightaarray[1] == null)
+			{
+				if(screenaarray[1] == null)
+				{
+					aroomcurrent = 0;
+				}
+				else
+				{
+					aroomcurrent = screenaarray[1];
+				}
+			}
+			else
+			{
+				aroomcurrent = lightaarray[1];
+			}
+			
+			// Determine current of b room
+			if(lampbarray[1] == null)
+			{
+				if(fanbarray[1] == null)
+				{
+					broomcurrent = 0;
+				}
+				else
+				{
+					broomcurrent = fanbarray[1];
+				}
+			}
+			else
+			{
+				broomcurrent = lampbarray[1];
+			}
 
 			$('#voicesAddress').text(voices.address);       
             $('#voicesType').text(voices.type);                  
@@ -542,7 +579,9 @@ $(document).ready(function ()
 			$('#bgsrc').attr('src', arg.BGURL);
 			$('#voicessrc').attr('src', arg.VOICEURL);			
 			$('#gesturesrc').attr('src', arg.GESTUREURL);			
-			$('#contextsrc').attr('src', arg.CONTEXTURL);									
+			$('#contextsrc').attr('src', arg.CONTEXTURL);	
+			$('#aroomcurrent').text(aroomcurrent);	
+			$('#broomcurrent').text(broomcurrent);		
 			
             map.updata(); 
         });    
@@ -606,12 +645,12 @@ $(document).ready(function ()
 <div id="wrapper">    
     <div id="ticker4" data-xpos="170" data-ypos="210">
         <label><b>Temp:</b> </label><span id="140aData"></span><br>        
-        <label><b>Current:</b> </label><span id="140aDatb"></span><br>
+        <label><b>Current:</b> </label><span id="broomcurrent"></span><br>
         <label><b>Luminosity:</b> </label><span id="170aData"></span><br>                
     </div>  
     <div id="ticker3">
         <label><b>Temp:</b> </label><span id="140bData"></span><br>        
-        <label><b>Current:</b> </label><span id="140bDatb"></span><br>
+        <label><b>Current:</b> </label><span id="aroomcurrent"></span><br>
         <label><b>Luminosity:</b> </label><span id="170bData"></span><br>                
     </div>  	 
 	<img width="700" height="446" src="images/bg.png" id="bgsrc"> 
@@ -619,36 +658,28 @@ $(document).ready(function ()
 	<img width="50" height="50" src="images/gesture_off.png" id="gesturesrc">
 	<img width="50" height="50" src="images/context_off.png" id="contextsrc">	
     <div class="pin pin-down" data-xpos="60" data-ypos="145">
-        <label><b>Lamp B:</b> </label><br>        
+        <label><b>Lamp:</b> </label><br>        
         <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
         <label><b>Type: </b></label><span id="lampbType"></span><br>
-        <label><b>Data:</b></label><span id="lampbData"></span><br>
-        <label><b>DataA:</b></label><span id="lampbDataA"></span><br>
-        <label><b>DataB:</b></label><span id="lampbDataB"></span><br>                
+        <label><b>Data:</b></label><span id="lampbData"></span><br>              
     </div>
     <div class="pin pin-down" data-xpos="580" data-ypos="180">    
-        <label><b>Screen A: </b></label><br>
+        <label><b>Screen: </b></label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
         <label><b>Type:</b> </label><span id="screenaType"></span><br>
-        <label><b>Data:</b> </label><span id="screenaData"></span><br>
-        <label><b>DataA:</b> </label><span id="screenaDataA"></span><br>
-        <label><b>DataB:</b> </label><span id="screenaDataB"></span><br>                
+        <label><b>Data:</b> </label><span id="screenaData"></span><br>               
     </div>         
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
-        <label><b>Light A:</b> </label><br>    
+        <label><b>Light:</b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
         <label><b>Type:</b> </label><span id="lightaType"></span><br>
-        <label><b>Data:</b> </label><span id="lightaData"></span><br>
-        <label><b>DataA:</b> </label><span id="lightaDataA"></span><br>
-        <label><b>DataB:</b> </label><span id="lightaDataB"></span><br>                
+        <label><b>Data:</b> </label><span id="lightaData"></span><br>               
     </div>   
     <div class="pin pin-down" data-xpos="200" data-ypos="210">
-        <label><b>Fan B:</b> </label><br>    
+        <label><b>Fan:</b> </label><br>    
         <label><b>Address:</b> </label><span id="fanbAddress"></span><br>
         <label><b>Type:</b> </label><span id="fanbType"></span><br>
-        <label><b>Data:</b> </label><span id="fanbData"></span><br>
-        <label><b>DataA:</b> </label><span id="fanbDataA"></span><br>
-        <label><b>DataB:</b> </label><span id="fanbDataB"></span><br>                
+        <label><b>Data:</b> </label><span id="fanbData"></span><br>              
     </div>      
     <div class="pin pin-down" data-xpos="350" data-ypos="210">
         <label><b>voices:</b> </label><br>    
