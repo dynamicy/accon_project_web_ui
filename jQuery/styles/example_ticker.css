@@ -41,8 +41,8 @@ body
 
 #ticker1
 { 
-	z-index:5000;
-	top:250;
+	z-index:9000;
+	top:20;
 }
 
 #ticker1 .odd 

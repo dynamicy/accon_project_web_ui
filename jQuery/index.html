@@ -2,12 +2,10 @@
 <head>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link type="text/css" href="styles/weatherslider.css" rel="stylesheet">
 <link type="text/css" href="styles/example_ticker.css" rel="stylesheet">
 <link type="text/css" href="styles/jquery.supertabs.css" rel="stylesheet">
 <link type="text/css" href="styles/jquery-ui.css" rel="stylesheet">
 <link type="text/css" href="styles/application.css" rel="stylesheet">
-<link type="text/css" href="styles/osmplayer_default.css" rel="stylesheet">
 <script type="text/javascript" src="scripts/jquery-1.8.3.min.js" ></script>
 <script type="text/javascript" src="scripts/jquery.supertabs.js"></script>
 <script type="text/javascript" src="scripts/jquery.ui.slider.js"></script>
@@ -15,9 +13,9 @@
 <script type="text/javascript" src="scripts/jquery.zrssfeed.min.js"></script>
 <script type="text/javascript" src="scripts/jquery.vticker.js"></script>
 <script type="text/javascript" src="scripts/application.js"></script>
-<script type="text/javascript" src="scripts/weatherslider.kreaturamedia.jquery-min.js"></script>
-<script type="text/javascript" src="scripts/example.js"></script>
+<script src="jquery.zweatherfeed.min.js" type="text/javascript"></script>
 
+<script type="text/javascript" src="scripts/example.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () 
 	{
@@ -33,6 +31,21 @@
 			});
 		});
 	});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#test').weatherfeed(['UKXX0085','EGXX0011','UKXX0061','CAXX0518','CHXX0049'],{},function(e) {
+		$("div.scrollable").scrollable({ 
+        		vertical: true,  
+	        	size: 1,
+			circular: true
+		}).navigator().autoscroll({
+			interval: 3000
+		});
+	});
+});
+
 </script>
 
 <script type="text/javascript">
@@ -119,6 +132,7 @@
   
 </head>
 <body class=' features'>
+	                   <div id="ticker1"></div>
 <span id="tb"></span>
 <div id="outer">
     <div id="inner">
@@ -138,30 +152,23 @@
         <div id="content">
             <div class="supertabs">
                 <div data-tab="main" class="supertab-active">
+                
                     <div class='content_wrapper'>
-                        <section class='features_boxes'>
-	                        <div id="ws-examples">
-		                        <div class="ws-example">
-			                        <div id="weatherslider">
-				                        <div>
-					                        <div id="ticker1"></div>
-					                    </div>
-					                    <span class="ws-location">Tainan, TW</span>
-					                </div>
-					            </div>
-					        </div>
-                        </section>
+                        <section class='features_boxes'>	               	                      	             
+	                  <iframe src="weather.html" width="790" height="500" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align="center">
+						</section>
                     </div>
                 </div>
-                 <div data-tab="osgi">
-                    <section class="content-width">
-                      <iframe src="osgi.html" width="790" height="500" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align="center">
-                    </iframe>
-                    </section>
-                </div>
+	             <div data-tab="osgi">
+	                <section class="content-width">
+	                  <iframe src="osgi.html" width="790" height="500" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align="center">
+	                </iframe>
+	                </section>
+	            </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
