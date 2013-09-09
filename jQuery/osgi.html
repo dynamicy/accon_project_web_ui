@@ -21,35 +21,35 @@
     </div>  	 
 	<img width="700" height="446" src="images/bg.png" id="bgsrc"> 
 	<img width="50" height="50" src="images/voice_off.png" id="voicessrc">
-	<img width="50" height="50" src="images/gesture_off.png" id="gesturesrc">
+	<img width="50" height="50" src="images/camera_off.png" id="gesturesrc">
 	<img width="50" height="50" src="images/context_off.png" id="contextsrc">	
     <div class="pin pin-down" data-xpos="65" data-ypos="130">
         <label><b><font size="5">Lamp</font></b> </label><br>        
         <label><b>Address:</b> </label><span id="lampbAddress"></span><br>        
         <label><b>Status:</b></label><span id="lampbDataA"></span><br>  
-        <button id="lampButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="lampButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>                  
+        <button id="lampButton1" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Lamp&data=on&filter=socket">Turn On</button>
+        <button id="lampButton2" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Lamp&data=off&filter=socket">Turn Off</button>                  
     </div>
     <div class="pin pin-down" data-xpos="580" data-ypos="180">    
         <label><b><font size="5">Screen</font></b></label><br>
         <label><b>Address:</b> </label><span id="screenaAddress"></span><br>        
         <label><b>Status:</b> </label><span id="screenaDataA"></span><br>
-        <button id="screenButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="screenButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>          
+        <button id="screenButton1" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Screen&data=on&filter=socket">Turn On</button>
+        <button id="screenButton2" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Screen&data=off&filter=socket">Turn Off</button>          
     </div>         
     <div class="pin pin-down" data-xpos="380" data-ypos="1">
         <label><b><font size="5">Light</font></b> </label><br>    
         <label><b>Address:</b> </label><span id="lightaAddress"></span><br>
         <label><b>Status:</b> </label><span id="lightaDataA"></span><br>     
-        <button id="lightButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="lightButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>     
+        <button id="lightButton1" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Light&data=on&filter=socket">Turn On</button>
+        <button id="lightButton2" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Light&data=off&filter=socket">Turn Off</button>     
     </div>   
     <div class="pin pin-down" data-xpos="200" data-ypos="210">
         <label><b><font size="5">Fan</font></b></label><br>    
         <label><b>Address:</b> </label><span id="fanbAddress"></span><br>
         <label><b>Status:</b> </label><span id="fanbDataA"></span><br>     
-        <button id="fanButton1" style="height: 50px; width: 80px" onclick="">Turn On</button>
-        <button id="fanButton2" style="height: 50px; width: 80px" onclick="">Turn Off</button>
+        <button id="fanButton1" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Fan&data=on&filter=socket">Turn On</button>
+        <button id="fanButton2" style="height: 50px; width: 80px" onclick="http://10.0.0.3:8000/?type=Fan&data=off&filter=socket">Turn Off</button>
     </div>                            
 </div>
 </body>

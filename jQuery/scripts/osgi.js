@@ -26,11 +26,9 @@ $(document).ready(function ()
                                 	$(this).children().each(function()
                                 	{
                                 		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
-	                                	//module[$(this).prop('address').toLowerCase()] = $(this).text();
                                 	});
                                 	
                                 	modules[module.type + '_' + module.room] = module;
-                                    //jBun[$(this).prop('tagName').toLowerCase()] = $(this).text();
                                 });
                                 devices[did] = modules;
                             });
@@ -72,9 +70,7 @@ $(document).ready(function ()
 				var m170b = zstackDevice['M170_B'];												
 				var m190a = zstackDevice['M190_A'];							
 				
-				// Smart Socket Device
-				var nonea = smartsocketDevice['None_A'];
-				var noneb = smartsocketDevice['None_B'];					
+				// Smart Socket Device				
 				var screen_a = smartsocketDevice['Screen_A'];
 				var light_a = smartsocketDevice['Light_A'];						
 				var fan_b = smartsocketDevice['Fan_B'];						
@@ -137,7 +133,7 @@ $(document).ready(function ()
 				var voices = smartphoneDevice['voice_S'];	
 				
 				// Aspire Device
-				var gestures = aspireDevice['gesture_S'];													
+				var cameras = aspireDevice['camera_S'];													
 
 				// Gateway Device
 				var contextaways = gatewayDevice['contextaware_S'];	
@@ -163,7 +159,7 @@ $(document).ready(function ()
 					voices: smartphoneDevice['voice_S'],
 					
 					// Aspire Device
-					gestures: aspireDevice['gesture_S'],
+					cameras: aspireDevice['camera_S'],
 					
 					// Gateway Device
 					contextaways: gatewayDevice['contextaware_S']
@@ -182,7 +178,7 @@ $(document).ready(function ()
 						|| (me.oldData.lighta.data != me.curData.lighta.data) || (me.oldData.screena.data != me.curData.screena.data)
 						|| (me.oldData.lampb.data != me.curData.lampb.data)	|| (me.oldData.fanb.data != me.curData.fanb.data)
 						|| (me.oldData.contextaways.data != me.curData.contextaways.data)
-						|| (me.oldData.gestures.data != me.curData.gestures.data)														
+						|| (me.oldData.cameras.data != me.curData.cameras.data)														
 						|| (me.oldData.voices.data != me.curData.voices.data)) 
 					{
 						me.isChanged = true;
@@ -190,7 +186,7 @@ $(document).ready(function ()
 	                    var aRoomLightLevel;
 						var bRoomLightLevel;
 						var voiceState;
-						var gestureState;
+						var cameraState;
 						var contextState;
 						var screenstatus;
 						var lightstatus;
@@ -243,17 +239,17 @@ $(document).ready(function ()
 						}
 						arg.VOICEURL = 'images/voice' + "_" + voiceState + ".png";
 						
-						// Gesture
-						var gesturesarray = me.curData.gestures.data.split(';');	
-						if(gesturesarray[0] == "On")
+						// Camera
+						var camerasarray = me.curData.cameras.data.split(';');	
+						if(camerasarray[0] == "On")
 						{
-							gestureState = "on";
+							cameraState = "on";
 						}
 						else
 						{
-							gestureState = "off";								
+							cameraState = "off";								
 						}
-						arg.GESTUREURL = 'images/gesture' + "_" + gestureState + ".png";							
+						arg.CAMERAURL = 'images/camera' + "_" + cameraState + ".png";							
 						
 						// Context away
 						var contextawaysarray = me.curData.contextaways.data.split(';');	
@@ -525,7 +521,7 @@ $(document).ready(function ()
 
 		$('#bgsrc').attr('src', arg.BGURL);
 		$('#voicessrc').attr('src', arg.VOICEURL);			
-		$('#gesturesrc').attr('src', arg.GESTUREURL);			
+		$('#camerasrc').attr('src', arg.CAMERAURL);			
 		$('#contextsrc').attr('src', arg.CONTEXTURL);	
 		$('#aroomcurrent').text(aroomcurrent);	
 		$('#broomcurrent').text(broomcurrent);		
