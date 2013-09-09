@@ -179,7 +179,8 @@ $(document).ready(function ()
 						|| (me.oldData.lampb.data != me.curData.lampb.data)	|| (me.oldData.fanb.data != me.curData.fanb.data)
 						|| (me.oldData.contextaways.data != me.curData.contextaways.data)
 						|| (me.oldData.cameras.data != me.curData.cameras.data)														
-						|| (me.oldData.voices.data != me.curData.voices.data)) 
+						|| (me.oldData.voices.data != me.curData.voices.data)
+						|| (me.oldData.cameras.address != me.curData.cameras.address)) 
 					{
 						me.isChanged = true;
 						
@@ -192,7 +193,9 @@ $(document).ready(function ()
 						var screenstatus;
 						var lightstatus;
 						var fanstatus;
-						var lampstatus;												
+						var lampstatus;	
+						
+						var urladdress = me.curData.cameras.address;
 									                    
 						// Determine the level of the light
 						if(me.curData.m170a.data < 25)
@@ -245,15 +248,25 @@ $(document).ready(function ()
 						if(camerasarray[0] == "On")
 						{
 							cameraState = "on";
-							cameraBtn = "http://10.0.0.3:8000/?filter=contextaware&status=offline";	
+							cameraBtn = 'http://'+ urladdress + '/?filter=contextaware&status=offline';	
 						}
 						else
 						{
 							cameraState = "off";								
-							cameraBtn = "http://10.0.0.3:8000/?filter=contextaware&status=online";							
+							cameraBtn = 'http://' + urladdress + '/?filter=contextaware&status=online';	
 						}
 						arg.CAMERAURL = 'images/camera' + "_" + cameraState + ".png";
 						arg.CAMERABTN = cameraBtn;
+						
+						
+						arg.LAMP1BTN = 'http://' + urladdress + '/?type=Lamp&data=on&filter=socket';
+						arg.LAMP2BTN = 'http://' + urladdress + '/?type=Lamp&data=off&filter=socket';
+						arg.SCREEN1BTN = "http://" + urladdress + "/?type=Screen&data=on&filter=socket";
+						arg.SCREEN2BTN = "http://" + urladdress + "/?type=Screen&data=off&filter=socket";
+						arg.LIGHT1BTN = "http://" + urladdress + "/?type=Light&data=on&filter=socket";
+						arg.LIGHT2BTN = "http://" + urladdress + "/?type=Light&data=off&filter=socket";
+						arg.FAN1BTN = "http://" + urladdress + "/?type=Fan&data=on&filter=socket";
+						arg.FAN2BTN = "http://" + urladdress + "/?type=Fan&data=off&filter=socket";																						
 						
 						// Context away
 						var contextawaysarray = me.curData.contextaways.data.split(';');	
@@ -530,6 +543,15 @@ $(document).ready(function ()
 		$('#contextsrc').attr('src', arg.CONTEXTURL);	
 		$('#aroomcurrent').text(aroomcurrent);	
 		$('#broomcurrent').text(broomcurrent);		
+		
+		$('#lampButton1').attr('onclick', arg.LAMP1BTN);					
+		$('#lampButton2').attr('onclick', arg.LAMP2BTN);					
+		$('#screenButton1').attr('onclick', arg.SCREEN1BTN);					
+		$('#screenButton2').attr('onclick', arg.SCREEN2BTN);					
+		$('#lightButton1').attr('onclick', arg.LIGHT1BTN);					
+		$('#lightButton2').attr('onclick', arg.LIGHT2BTN);					
+		$('#fanButton1').attr('onclick', arg.FAN1BTN);					
+		$('#fanButton2').attr('onclick', arg.FAN2BTN);																					
 		
         map.updata(); 
     });    
