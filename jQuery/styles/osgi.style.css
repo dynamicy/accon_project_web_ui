@@ -140,3 +140,12 @@ top:38px;
 filter: Alpha(Opacity=30);
 z-index:900
 }
+
+#contextonclick
+{
+position:absolute;
+left:40px;
+top:38px;
+filter: Alpha(Opacity=30);
+z-index:900
+}

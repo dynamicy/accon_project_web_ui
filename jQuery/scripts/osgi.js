@@ -2,44 +2,44 @@ $(document).ready(function ()
 {
 	var DataExtractor = function () 
 	{
-            var me = this;
-            me.getBundle = function (handler) 
-            {
-            	$.ajax({
-                	url: '../xml_sample/alldata.xml',
-                	success: function (data) 
-                	{
-                        if (handler && data) 
+        var me = this;
+        me.getBundle = function (handler) 
+        {
+        	$.ajax({
+            	url: '../bundles/AllData.xml',              	
+            	success: function (data) 
+            	{
+                    if (handler && data) 
+                    {
+                        var devices = {};
+                        var root = $(data).find('Root');
+						                                                    
+                        root.children().each(function()
                         {
-                            var devices = {};
-                            var root = $(data).find('Root');
-							                                                    
-                            root.children().each(function()
+                            var device = $(this);
+                            var did = device.attr('type').toLowerCase();
+                            var modules = {};
+                                                           
+                            device.children().each(function () 
                             {
-                                var device = $(this);
-                                var did = device.attr('type').toLowerCase();
-                                var modules = {};
-                                                               
-                                device.children().each(function () 
-                                {
-                                	var module = {};
-                                	$(this).children().each(function()
-                                	{
-                                		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
-                                	});
-                                	
-                                	modules[module.type + '_' + module.room] = module;
-                                });
-                                devices[did] = modules;
+                            	var module = {};
+                            	$(this).children().each(function()
+                            	{
+                            		module[$(this).prop('tagName').toLowerCase()] = $(this).text();
+                            	});
+                            	
+                            	modules[module.type + '_' + module.room] = module;
                             });
-                            handler(devices);
-                        }
-                    },
-                    cache: false
-            	});
-            };
+                            devices[did] = modules;
+                        });
+                        handler(devices);
+                    }
+                },
+                cache: false
+        	});
         };
-
+    };
+		
 	var ContextDataChecker = 
 	{
 		oldData: undefined,
@@ -138,6 +138,8 @@ $(document).ready(function ()
 				// Gateway Device
 				var contextaways = gatewayDevice['contextaware_S'];	
 				
+				urladdress = cameras.address;
+				
 				me.curData = 
 				{
                     // Z-Stack Device
@@ -160,6 +162,7 @@ $(document).ready(function ()
 					
 					// Aspire Device
 					cameras: aspireDevice['camera_S'],
+					urladdress: cameras.address,
 					
 					// Gateway Device
 					contextaways: gatewayDevice['contextaware_S']
@@ -194,9 +197,8 @@ $(document).ready(function ()
 						var lightstatus;
 						var fanstatus;
 						var lampstatus;	
-						
-						var urladdress = me.curData.cameras.address;
-									                    
+						var contextonclick;
+						                    
 						// Determine the level of the light
 						if(me.curData.m170a.data < 25)
 						{
@@ -248,37 +250,28 @@ $(document).ready(function ()
 						if(camerasarray[0] == "On")
 						{
 							cameraState = "on";
-							cameraBtn = 'http://'+ urladdress + '/?filter=contextaware&status=offline';	
 						}
 						else
 						{
 							cameraState = "off";								
-							cameraBtn = 'http://' + urladdress + '/?filter=contextaware&status=online';	
 						}
 						arg.CAMERAURL = 'images/camera' + "_" + cameraState + ".png";
 						arg.CAMERABTN = cameraBtn;
-						
-						
-						arg.LAMP1BTN = 'http://' + urladdress + '/?type=Lamp&data=on&filter=socket';
-						arg.LAMP2BTN = 'http://' + urladdress + '/?type=Lamp&data=off&filter=socket';
-						arg.SCREEN1BTN = "http://" + urladdress + "/?type=Screen&data=on&filter=socket";
-						arg.SCREEN2BTN = "http://" + urladdress + "/?type=Screen&data=off&filter=socket";
-						arg.LIGHT1BTN = "http://" + urladdress + "/?type=Light&data=on&filter=socket";
-						arg.LIGHT2BTN = "http://" + urladdress + "/?type=Light&data=off&filter=socket";
-						arg.FAN1BTN = "http://" + urladdress + "/?type=Fan&data=on&filter=socket";
-						arg.FAN2BTN = "http://" + urladdress + "/?type=Fan&data=off&filter=socket";																						
-						
+
 						// Context away
 						var contextawaysarray = me.curData.contextaways.data.split(';');	
 						if(contextawaysarray[0] == "On")
 						{
 							contextState = "on";
+							contextonclick = "smart_home_req(9\,\"div_test\")";
 						}
 						else
 						{
-							contextState = "off";								
+							contextState = "off";	
+							contextonclick = "smart_home_req(8\,\"div_test\")";
 						}							
 						arg.CONTEXTURL = 'images/context' + "_" + contextState + ".png";																					
+						arg.CONTEXTONCLICK = contextonclick;
 						
 						var lightaarray = me.curData.lighta.data.split(';'); 
 						lightaAddress = me.curData.lighta.address;
@@ -539,19 +532,11 @@ $(document).ready(function ()
 		$('#bgsrc').attr('src', arg.BGURL);
 		$('#voicessrc').attr('src', arg.VOICEURL);			
 		$('#camerasrc').attr('src', arg.CAMERAURL);
-		$('#camerabtn').attr('href', arg.CAMERABTN);					
+		$('#camerabtn').attr('onclick', arg.CAMERABTN);					
 		$('#contextsrc').attr('src', arg.CONTEXTURL);	
 		$('#aroomcurrent').text(aroomcurrent);	
-		$('#broomcurrent').text(broomcurrent);		
-		
-		$('#lampButton1').attr('onclick', arg.LAMP1BTN);					
-		$('#lampButton2').attr('onclick', arg.LAMP2BTN);					
-		$('#screenButton1').attr('onclick', arg.SCREEN1BTN);					
-		$('#screenButton2').attr('onclick', arg.SCREEN2BTN);					
-		$('#lightButton1').attr('onclick', arg.LIGHT1BTN);					
-		$('#lightButton2').attr('onclick', arg.LIGHT2BTN);					
-		$('#fanButton1').attr('onclick', arg.FAN1BTN);					
-		$('#fanButton2').attr('onclick', arg.FAN2BTN);																					
+		$('#broomcurrent').text(broomcurrent);	
+		$('#contextonclick').attr('onclick', arg.CONTEXTONCLICK);			
 		
         map.updata(); 
     });    
@@ -564,3 +549,57 @@ $(document).ready(function ()
     	if(extractor) ContextDataChecker.check(extractor);
     }
 });
+
+	var urladdress;
+
+	function FP_preloadImgs() 
+	{//v1.0
+	 var d=document,a=arguments; if(!d.FP_imgs) d.FP_imgs=new Array();
+	 for(var i=0; i<a.length; i++) { d.FP_imgs[i]=new Image; d.FP_imgs[i].src=a[i]; }
+	}
+
+	function FP_swapImg() {//v1.0
+	 var doc=document,args=arguments,elm,n; doc.$imgSwaps=new Array(); for(n=2; n<args.length;
+	 n+=2) { elm=FP_getObjectByID(args[n]); if(elm) { doc.$imgSwaps[doc.$imgSwaps.length]=elm;
+	 elm.$src=elm.src; elm.src=args[n+1]; } }
+	}
+
+	function FP_getObjectByID(id,o) {//v1.0
+	 var c,el,els,f,m,n; if(!o)o=document; if(o.getElementById) el=o.getElementById(id);
+	 else if(o.layers) c=o.layers; else if(o.all) el=o.all[id]; if(el) return el;
+	 if(o.id==id || o.name==id) return o; if(o.childNodes) c=o.childNodes; if(c)
+	 for(n=0; n<c.length; n++) { el=FP_getObjectByID(id,c[n]); if(el) return el; }
+	 f=o.forms; if(f) for(n=0; n<f.length; n++) { els=f[n].elements;
+	 for(m=0; m<els.length; m++){ el=FP_getObjectByID(id,els[n]); if(el) return el; } }
+	 return null;
+	}
+// -->
+	function smart_home_req(val, obj_name)
+	{
+		var msg = new Array();
+		
+		msg[0]='http://' + urladdress + ':8000/?type=Lamp&data=on&filter=socket';
+		msg[1]='http://' + urladdress + ':8000/?type=Lamp&data=off&filter=socket';
+		msg[2]='http://' + urladdress + ':8000/?type=Screen&data=on&filter=socket';
+		msg[3]='http://' + urladdress + ':8000/?type=Screen&data=off&filter=socket';
+		msg[4]='http://' + urladdress + ':8000/?type=Light&data=on&filter=socket';
+		msg[5]='http://' + urladdress + ':8000/?type=Light&data=off&filter=socket';
+		msg[6]='http://' + urladdress + ':8000/?type=Fan&data=on&filter=socket';
+		msg[7]='http://' + urladdress + ':8000/?type=Fan&data=off&filter=socket';			
+		msg[8]='http://' + urladdress + ':8000/?filter=contextaware&status=online';
+		msg[9]='http://' + urladdress + ':8000/?filter=contextaware&status=offline';
+		
+		$.get(msg[val], function(data){check_error(data,val,obj_name)});
+	}
+
+	function check_error(data,val,obj_name)
+	{
+		//var obj_id='div_test';
+		if(data=="Fail\n"){
+			setTimeout(function(){smart_home_req(val,obj)},1000);
+		}
+		else{
+			var obj = document.getElementById(obj_name);
+			obj.innerHTML = data;//Return Message
+		}
+	}
