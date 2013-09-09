@@ -187,6 +187,7 @@ $(document).ready(function ()
 						var bRoomLightLevel;
 						var voiceState;
 						var cameraState;
+						var cameraBtn;
 						var contextState;
 						var screenstatus;
 						var lightstatus;
@@ -244,12 +245,15 @@ $(document).ready(function ()
 						if(camerasarray[0] == "On")
 						{
 							cameraState = "on";
+							cameraBtn = "http://10.0.0.3:8000/?filter=contextaware&status=offline";	
 						}
 						else
 						{
 							cameraState = "off";								
+							cameraBtn = "http://10.0.0.3:8000/?filter=contextaware&status=online";							
 						}
-						arg.CAMERAURL = 'images/camera' + "_" + cameraState + ".png";							
+						arg.CAMERAURL = 'images/camera' + "_" + cameraState + ".png";
+						arg.CAMERABTN = cameraBtn;
 						
 						// Context away
 						var contextawaysarray = me.curData.contextaways.data.split(';');	
@@ -521,7 +525,8 @@ $(document).ready(function ()
 
 		$('#bgsrc').attr('src', arg.BGURL);
 		$('#voicessrc').attr('src', arg.VOICEURL);			
-		$('#camerasrc').attr('src', arg.CAMERAURL);			
+		$('#camerasrc').attr('src', arg.CAMERAURL);
+		$('#camerabtn').attr('href', arg.CAMERABTN);					
 		$('#contextsrc').attr('src', arg.CONTEXTURL);	
 		$('#aroomcurrent').text(aroomcurrent);	
 		$('#broomcurrent').text(broomcurrent);		

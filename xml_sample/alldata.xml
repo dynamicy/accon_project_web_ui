@@ -80,8 +80,8 @@
 	<Device type="Aspire" protocol="sip">
 		<Module>
 			<address>sip:mmn_osgi@140.116.226.230:5060</address>
-			<type>gesture</type>
-			<data>On</data>
+			<type>camera</type>
+			<data>Off</data>
 			<room>S</room>
 		</Module>
 	</Device>
@@ -89,7 +89,7 @@
 		<Module>
 			<address>mmn.osgi.contextaware</address>
 			<type>contextaware</type>
-			<data>On</data>
+			<data>Off</data>
 			<room>S</room>
 		</Module>
 	</Device>
